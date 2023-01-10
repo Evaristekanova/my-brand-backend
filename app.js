@@ -1,4 +1,3 @@
-const { log } = require('console')
 const express = require('express')
 const {MongoClient} = require('mongodb')
 const app = express()

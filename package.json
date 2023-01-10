@@ -1,0 +1,25 @@
+{
+  "name": "my-brand-backend",
+  "version": "1.0.0",
+  "description": "backend of my portofolio",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Evaristekanova/my-brand-backend.git"
+  },
+  "author": "Evariste",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Evaristekanova/my-brand-backend/issues"
+  },
+  "homepage": "https://github.com/Evaristekanova/my-brand-backend#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.8.3",
+    "nodemon": "^2.0.20"
+  }
+}

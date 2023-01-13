@@ -1,62 +1,49 @@
-const mongoose = require('mongoose')
 const express = require('express')
+const mongoose = require('mongoose')
+const signUp = require('./models/signUp')
+const cloudinary = require('./store/cloudinary')
+const upload = require('./store/multer')
+const blogControllers = require('./controllers/blogController')
+const signUpControllers = require('./controllers/signupController')
+const msgControllers = require('./controllers/messageController')
+require('dotenv').config()
 const app = express()
-const DB = require('./connection/connection')
 app.use(express.json())
+
+//==============batabase connection=========// 
+const DB = require('./connection/connection');
 mongoose.set('strictQuery', true)
 mongoose.connect(DB, {
     useNewUrlParser:true
 }).then(()=>console.log('connected')).catch(err=>console.log(err))
+app.use(express.json())
 
-const schema = mongoose.Schema(
-    {
-        title:'string',
-        description:"string"
-    })
-const postRequest = mongoose.model('post', schema)
+// ============================BLOGS ENDPOINT ===================//
+// ============== post a blog ===========//
+// app.use(blogRouter)
+app.post("/blog", upload.single("image"), blogControllers.postBlog);
+  app.get('/blog', blogControllers.getAllBlogs)
+app.get('/blog/:id', blogControllers.getSingleBlog)
+app.delete('/blog/:id', blogControllers.deleteBlog)
+app.put('/blog/:id', blogControllers.updateBlog);
 
 
-// ========post request ========//
-app.post('/', async(req, res)=>{
-    console.log(req.body);
-    const {title, description} = req.body
-    try {
-        const newPost = await postRequest.create({title, description})
-        res.status(201).json(newPost)
-    } catch (error) {
-        res.status(500).send(error)
-    }
-})
-// ======== get all posts ========//
-app.get('/', async(req, res)=>{
-    try {
-        const allPosts = await postRequest.find()
-    res.status(200).json(allPosts)
-    } catch (error) {
-        res.status(500).send(error)
-    }
-})
+// ============================ MESSAGE ENDPOINT ===================//
+app.post('/message', msgControllers.postMgs)
+app.get('/message', msgControllers.getAllMsg)
+app.get('/message/:id', msgControllers.getMsg)
+app.delete('/message/:id', msgControllers.deleteMsg)
 
-// ======== get a post ========//
-app.get('/:id', async(req, res)=>{
-    const {id} = req.params
-    try {
-        const aPost = await postRequest.findById(id)
-        res.status(200).json(aPost)
-    } catch (error) {
-        res.status(500).send(error)
-    }
-})
-app.patch('/:id', async(req, res)=>{
-    const {id} = req.params
-    const {title} = req.body
-    try {
-        const update = await postRequest.findByIdAndUpdate(id,{title})
-        res.status(204).json(update)
-    } catch (error) {
-        res.status(500).send(error)
-    }
-})
+// ============================ signup ENDPOINT ===================//
+
+// =========post a user ========//
+app.post('/signup', signUpControllers.postUser)
+app.delete('/signup/:id', signUpControllers.deleteUser)
+app.get('/signup', signUpControllers.getAllUsers)
+// ======== get a user =========//
+app.get('/signup/:id', signUpControllers.getUser)
+// ======update user======//
+app.put('/signup/:id', signUpControllers.editUser)
 app.listen(8000, ()=>{
     console.log('server is running...')
 })

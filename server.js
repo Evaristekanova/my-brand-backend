@@ -4,11 +4,9 @@ const upload = require('./store/multer');
 const blogRouter = require('./routes/blogRoutes');
 const signupRouter = require('./routes/signupRoutes');
 const messageCRouter = require('./routes/messageRoutes');
-const dotenv = require('dotenv').config();
 const app = express();
 app.use(express.json());
 
-console.log(dotenv);
 //==============batabase connection=========//
 const DB = require('./connection/connection');
 mongoose.set('strictQuery', true);

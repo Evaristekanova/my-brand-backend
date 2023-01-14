@@ -1,8 +1,11 @@
+const bcrypt = require('bcrypt')
 const signUp = require('../models/signUp')
 
 exports.postUser = async(req, res)=>{
-    const {name, email, password} = req.body
+    let {name, email, password} = req.body
     try {
+        const salt = await bcrypt.genSalt()
+        password = await bcrypt.hash(password, salt)
         const newuser = await signUp.create({
             name:name,
             email:email,
@@ -35,13 +38,25 @@ exports.editUser =async(req, res)=>{
         const user = await signUp.findById(req.params.id)
         console.log(user);
         let result
-        if(req.body){
-            result = req.body
+        let data
+        // if(req.body)
+        //     result = req.body
+        if(req.body.password){
+            let {password} = req.body
+            const salt = await bcrypt.genSalt()
+            password = await bcrypt.hash(req.body.password, salt)
+             data = {
+                name:result?.name || user.name,
+                password:password,
+                email:result?.email || user.email
+            }
         }
-        let data = {
-            name:result?.name || user.name,
-            password:result?.password || user.password,
-            email:result?.email || user.email
+        else{
+            data = {
+                name:result?.name || user.name,
+                password: user.password,
+                email:result?.email || user.email
+            }
         }
         const updateUser = await signUp.findByIdAndUpdate(req.params.id, data, {new:true})
         updateUser.save()

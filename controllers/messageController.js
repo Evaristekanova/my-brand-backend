@@ -1,6 +1,6 @@
 const message = require('../models/messages')
 
-exports.postMgs = async(req, res)=>{
+exports.postMsg = async(req, res)=>{
     try {
         const {firstName, secondName, email, messages} = req.body
         newMsg = await message.create({

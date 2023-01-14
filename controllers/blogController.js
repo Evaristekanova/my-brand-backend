@@ -1,5 +1,5 @@
 const blogPost = require('../models/blogs')
-
+const cloudinary = require('cloudinary')
 exports.postBlog = async (req, res) => {
     try {
       // Upload image to cloudinary

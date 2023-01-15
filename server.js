@@ -7,7 +7,7 @@ const messageCRouter = require('./routes/messageRoutes');
 const app = express();
 app.use(express.json());
 
-//==============batabase connection=========//
+//==============DATABASE CONNECTION =========//
 const DB = require('./connection/connection');
 mongoose.set('strictQuery', true);
 mongoose
@@ -16,7 +16,6 @@ mongoose
   })
   .then(() => console.log('connected'))
   .catch((err) => console.log(err));
-app.use(express.json());
 
 // ================== ENDPOINTs ===================//
 upload.single('image');

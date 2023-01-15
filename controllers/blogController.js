@@ -1,7 +1,9 @@
 const blogPost = require('../models/blogs')
 const cloudinary = require('cloudinary')
+const uploads = require('../store/cloudinary')
+
 exports.postBlog = async (req, res) => {
-    try {
+  try {
       // Upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
         const {title, shortDescription, fullDescription} = req.body
@@ -14,7 +16,7 @@ exports.postBlog = async (req, res) => {
         cloudinary_id: result.public_id,
       };
       const newBlog = await blogPost.create(user)
-      res.status(201).json(newBlog);
+      res.status(201).json({messag:"blog created successfully"});
     } catch (err) {
       console.log(err);
     }
@@ -42,7 +44,7 @@ exports.deleteBlog =  async(req, res)=>{
         const blog = await blogPost.findById(req.params.id)
         await cloudinary.uploader.destroy(blog.cloudinary_id)
         await blog.remove()
-    res.json(blog)
+    res.json({messag:"blog deleted."})
     } catch (err) {
         console.log(err);
         res.send(err)
@@ -52,13 +54,15 @@ exports.updateBlog = async(req, res)=>{
     try {
         let blog = await blogPost.findById(req.params.id);
         // Delete image from cloudinary
+      console.log(blog);
         await cloudinary.uploader.destroy(blog.cloudinary_id);
         // Upload image to cloudinary
         let result;
         if (req.file) {
           result = await cloudinary.uploader.upload(req.file.path);
         }
-        console.log(result);
+      console.log(result);
+      console.log(req.body);
         const {shortDescription, title, fullDescription} = req.body
         const data = {
           title: title || blog.title,

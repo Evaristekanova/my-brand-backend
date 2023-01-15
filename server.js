@@ -4,6 +4,7 @@ const upload = require('./store/multer');
 const blogRouter = require('./routes/blogRoutes');
 const signupRouter = require('./routes/signupRoutes');
 const messageCRouter = require('./routes/messageRoutes');
+const signupControllers = require('./controllers/signupController');
 const app = express();
 app.use(express.json());
 
@@ -22,6 +23,8 @@ upload.single('image');
 app.use('/blog', blogRouter);
 app.use('/message', messageCRouter);
 app.use('/register', signupRouter);
+app.use('/login', signupControllers.login);
+app.use('/logout', signupControllers.logout);
 app.use((req, res) => {
   res.status(404).json({
     message: 'the page not found',

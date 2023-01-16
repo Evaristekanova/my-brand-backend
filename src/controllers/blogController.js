@@ -1,7 +1,7 @@
-const blogPost = require('../models/blogs');
+import blogPost from '../models/blogs';
 const cloudinary = require('cloudinary');
-const jwt =  require('jsonwebtoken')
-const uploads = require('../store/cloudinary');
+const jwt = require('jsonwebtoken');
+const uploads = require('../../store/cloudinary');
 
 exports.postBlog = async (req, res) => {
   try {
@@ -30,7 +30,7 @@ exports.postBlog = async (req, res) => {
 };
 exports.getAllBlogs = async (req, res) => {
   try {
-    const allBlogs = await blogPost.find();
+    const allBlogs = await blogPost.find({});
     res.json(allBlogs);
   } catch (err) {
     console.log(err);
@@ -61,15 +61,12 @@ exports.updateBlog = async (req, res) => {
   try {
     let blog = await blogPost.findById(req.params.id);
     // Delete image from cloudinary
-    console.log(blog);
     await cloudinary.uploader.destroy(blog.cloudinary_id);
     // Upload image to cloudinary
     let result;
     if (req.file) {
       result = await cloudinary.uploader.upload(req.file.path);
     }
-    console.log(result);
-    console.log(req.body);
     const { shortDescription, title, fullDescription } = req.body;
     const data = {
       title: title || blog.title,
@@ -79,7 +76,7 @@ exports.updateBlog = async (req, res) => {
       cloudinary_id: result?.public_id || blog.cloudinary_id,
     };
     blog = await blogPost.findByIdAndUpdate(req.params.id, data, { new: true });
-    res.json(blog);
+    res.json({message:"blog updated successfully"});
   } catch (err) {
     console.log(err);
   }

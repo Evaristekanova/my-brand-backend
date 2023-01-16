@@ -11,5 +11,6 @@ const schema = mongoose.Schema({
     cloudinary_id:{
       type: String,
     },
-  });
-module.exports=blopPost = mongoose.model("blogs", schema)
+});
+const blopPost = mongoose.model('blogs', schema);
+module.exports= blopPost

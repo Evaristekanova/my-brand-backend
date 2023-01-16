@@ -6,4 +6,5 @@ const schema = mongoose.Schema(
         email:{type:String},
         messages:{type:String}
     })
-module.exports= message = mongoose.model("messages", schema)
+const message = mongoose.model("messages", schema)
+module.exports = message

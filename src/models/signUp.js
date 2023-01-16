@@ -5,4 +5,5 @@ const schema = mongoose.Schema(
         email:{type:String},
         password:{type:String}
     })
-module.exports= signUp = mongoose.model("Users", schema)
+const signUp = mongoose.model("Users", schema)
+module.exports = signUp

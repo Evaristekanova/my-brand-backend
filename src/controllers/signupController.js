@@ -7,15 +7,15 @@ exports.postUser = async (req, res) => {
   try {
     let { name, email, password } = req.body;
     const user = await signUp.findOne({ email });
-    if(user) return res.json({ message: 'access dineid' });
+    if (user) return res.json({ message: 'access dineid' });
     const salt = await bcrypt.genSalt();
     password = await bcrypt.hash(password, salt);
     const newuser = await signUp.create({
-        name,
-        email,
-        password
+      name,
+      email,
+      password,
     });
-      res.status(201).json({ message: 'new user created successfully'});
+    res.status(201).json({ message: 'new user created successfully' });
   } catch (error) {
     res.status(400).send(error);
   }
@@ -82,15 +82,15 @@ exports.deleteUser = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     let { email, password } = req.body;
-      const user = await signUp.findOne({ email });
+    const user = await signUp.findOne({ email });
     const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) {
       return res.json({ message: 'access dineid' });
     }
-      const { SECRET_KEY } = process.env;
+    const { SECRET_KEY } = process.env;
     jwt.sign({ user }, SECRET_KEY, (err, token) => {
-      req.token = ''
-      res.json(req.token)
+      req.token = '';
+      res.json(req.token);
     });
     // res.status(203).json({ message: 'access granted' });
   } catch (err) {
@@ -101,7 +101,7 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
   try {
     console.log(req.token);
-    res.json({message:"user loged out"})
+    res.json({ message: 'user loged out' });
   } catch (error) {
     console.log(error);
   }

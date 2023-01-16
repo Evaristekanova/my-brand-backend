@@ -1,10 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const upload = require('./store/multer');
-const blogRouter = require('./routes/blogRoutes');
-const signupRouter = require('./routes/signupRoutes');
-const messageCRouter = require('./routes/messageRoutes');
-const signupControllers = require('./controllers/signupController');
+import upload from'../store/multer'
+import blogRouter from'./routes/blogRoutes'
+import signupRouter from'./routes/signupRoutes'
+import messageCRouter from'./routes/messageRoutes'
+import signupControllers from './controllers/signupController'
+import dotenv from 'dotenv'
+dotenv.config()
 const app = express();
 app.use(express.json());
 
@@ -30,6 +32,8 @@ app.use((req, res) => {
     message: 'the page not found',
   });
 });
-app.listen(8000, () => {
-  console.log('server is running...');
+
+const {PORT} = process.env
+app.listen(PORT, () => {
+  console.log(`server is running on port ${PORT}...`);
 });

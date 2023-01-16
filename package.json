@@ -120,9 +120,7 @@
     "whatwg-url": "^11.0.0"
   },
   "scripts": {
-    "devStart": "nodemon server.js",
-    "build": "babel-node src -d dist",
-    "start": "nodemon --exec babel-node src"
+    "start": "nodemon --exec babel-node src/server.js"
   },
   "repository": {
     "type": "git",

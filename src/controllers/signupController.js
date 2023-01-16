@@ -1,11 +1,14 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 import signUp from '../models/signUp';
-import jwt from'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 require('dotenv').config();
 
 exports.postUser = async (req, res) => {
   try {
     let { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      res.json({ message: 'All field are required' });
+    }
     const user = await signUp.findOne({ email });
     if (user) return res.json({ message: 'access dineid' });
     const salt = await bcrypt.genSalt();
@@ -30,7 +33,13 @@ exports.getAllUsers = async (req, res) => {
 };
 exports.getUser = async (req, res) => {
   try {
+     if (req.params.id.length != 24) {
+       res.json({ message: 'incorrect id' });
+     }
     const user = await signUp.findById(req.params.id);
+    if (!user) {
+      res.json({ message: "the user doesn't exist" });
+    }
     res.json(user);
   } catch (err) {
     console.log(err);
@@ -38,12 +47,18 @@ exports.getUser = async (req, res) => {
 };
 exports.editUser = async (req, res) => {
   try {
-    const user = await signUp.findById(req.params.id);
-    console.log(user);
+     if (req.params.id.length != 24) {
+       res.json({ message: 'incorrect id' });
+     }
+     const user = await signUp.findById(req.params.id);
+     if (!user) {
+       res.json({ message: "the user doesn't exist" });
+     }
+
     let result;
     let data;
-    // if(req.body)
-    //     result = req.body
+    if(req.body)
+        result = req.body
     if (req.body.password) {
       let { password } = req.body;
       const salt = await bcrypt.genSalt();
@@ -71,9 +86,17 @@ exports.editUser = async (req, res) => {
 };
 exports.deleteUser = async (req, res) => {
   try {
-    const deleteBlog = await signUp.findById(req.params.id);
-    await deleteBlog.remove();
-    res.status(200).json(deleteBlog);
+     if (req.params.id.length != 24) {
+       res.json({ message: 'incorrect id' });
+     }
+     const user = await signUp.findById(req.params.id);
+     if (!user) {
+       res.json({ message: "the user doesn't exist" });
+     }
+     else {
+       await user.remove();
+       res.status(200).json({ message: 'user deleted successfully' });
+    }
   } catch (err) {
     console.log(err);
   }
@@ -102,6 +125,7 @@ exports.logout = async (req, res) => {
   try {
     console.log(req.token);
     res.json({ message: 'user loged out' });
+    req.token = undefined
   } catch (error) {
     console.log(error);
   }

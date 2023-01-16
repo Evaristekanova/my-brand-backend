@@ -14,7 +14,7 @@ const app = (0, _express.default)();
 app.use(_express.default.json());
 
 // ================== ENDPOINTs ===================//
-_multer.default.single('image');
+// upload.single('image');
 app.use('/blog', _blogRoutes.default);
 app.use('/message', _messageRoutes.default);
 app.use('/register', _signupRoutes.default);

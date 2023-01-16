@@ -1,6 +1,5 @@
 import express from 'express'
 import dotenv from 'dotenv';
-import upload from './store/multer';
 import blogRouter from './routes/blogRoutes';
 import signupRouter from './routes/signupRoutes';
 import messageCRouter from './routes/messageRoutes';
@@ -11,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 // ================== ENDPOINTs ===================//
-upload.single('image');
+// upload.single('image');
 app.use('/blog', blogRouter);
 app.use('/message', messageCRouter);
 app.use('/register', signupRouter);

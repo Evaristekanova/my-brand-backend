@@ -8,7 +8,7 @@ function verifyToken(req, res, next) {
     next();
   } else {
     // Forbidden
-    res.sendStatus(403);
+    res.status(403).json({message:"Access dineid"});
   }
 
 }

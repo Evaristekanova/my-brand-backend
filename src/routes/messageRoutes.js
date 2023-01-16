@@ -1,5 +1,5 @@
-const express = require('express');
-const messageControllers = require('../controllers/messageController');
+import express from 'express'
+import messageControllers from '../controllers/messageController'
 const router = express.Router();
 
 router

@@ -1,7 +1,7 @@
-const express = require('express');
-const upload = require('../../store/multer');
-const blogControllers = require('../controllers/blogController');
-const verifyToken = require('../auth/auth');
+import express from'express';
+import upload from '../store/multer';
+import blogControllers from '../controllers/blogController';
+import verifyToken from '../auth/auth';
 const router = express.Router();
 
 router
@@ -14,4 +14,5 @@ router
   .put(upload.single('image'), blogControllers.updateBlog)
   .delete(blogControllers.deleteBlog);
 
+  // export router to be used in server.js
 module.exports = router;

@@ -1,7 +1,7 @@
 import blogPost from '../models/blogs';
 const cloudinary = require('cloudinary');
 const jwt = require('jsonwebtoken');
-const uploads = require('../../store/cloudinary');
+import uploads from '../store/cloudinary';
 
 exports.postBlog = async (req, res) => {
   try {
@@ -76,7 +76,7 @@ exports.updateBlog = async (req, res) => {
       cloudinary_id: result?.public_id || blog.cloudinary_id,
     };
     blog = await blogPost.findByIdAndUpdate(req.params.id, data, { new: true });
-    res.json({message:"blog updated successfully"});
+    res.json({ message: 'blog updated successfully' });
   } catch (err) {
     console.log(err);
   }

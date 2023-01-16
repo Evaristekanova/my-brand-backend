@@ -1,6 +1,6 @@
-const express = require('express');
-const signupControllers = require('../controllers/signupController');
-const verifyToken = require('../auth/auth');
+import express from 'express'
+import signupControllers from '../controllers/signupController'
+// import verifyToken from '../auth/auth'
 
 const router = express.Router();
 

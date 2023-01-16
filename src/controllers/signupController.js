@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt');
-const signUp = require('../models/signUp');
-const jwt = require('jsonwebtoken');
+import bcrypt from 'bcrypt'
+import signUp from '../models/signUp';
+import jwt from'jsonwebtoken';
 require('dotenv').config();
 
 exports.postUser = async (req, res) => {
@@ -89,7 +89,7 @@ exports.login = async (req, res) => {
     }
     const { SECRET_KEY } = process.env;
     jwt.sign({ user }, SECRET_KEY, (err, token) => {
-      req.token = '';
+      req.token = token;
       res.json(req.token);
     });
     // res.status(203).json({ message: 'access granted' });

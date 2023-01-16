@@ -1,5 +1,6 @@
-const cloudinary = require('cloudinary').v2;
-const dotenv = require('dotenv').config();
+import cloudinary from 'cloudinary';
+import dotenv from 'dotenv'
+dotenv.config()
 const { CLOUDINARY_USERNAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } =process.env;
 cloudinary.config({
   cloud_name: CLOUDINARY_USERNAME,

@@ -1,11 +1,11 @@
-const express = require('express');
+import express from 'express'
 import dotenv from 'dotenv';
-import upload from '../store/multer';
+import upload from './store/multer';
 import blogRouter from './routes/blogRoutes';
 import signupRouter from './routes/signupRoutes';
 import messageCRouter from './routes/messageRoutes';
 import signupControllers from './controllers/signupController';
-import connection from './connection/connection'
+import connection from './connection/connection';
 dotenv.config();
 const app = express();
 app.use(express.json());

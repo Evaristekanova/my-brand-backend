@@ -1,5 +1,4 @@
 import express from 'express'
-import verifyToken from '../auth/auth'
 import messageControllers from '../controllers/messageController'
 const router = express.Router();
 
@@ -10,6 +9,6 @@ router
 router
   .route('/:id')
   .get(messageControllers.getMsg)
-  .delete(verifyToken,messageControllers.deleteMsg);
+  .delete(messageControllers.deleteMsg);
 
   module.exports = router

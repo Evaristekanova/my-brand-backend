@@ -2,11 +2,11 @@
 
 var _express = _interopRequireDefault(require("express"));
 var _dotenv = _interopRequireDefault(require("dotenv"));
+var _multer = _interopRequireDefault(require("./store/multer"));
 var _blogRoutes = _interopRequireDefault(require("./routes/blogRoutes"));
 var _signupRoutes = _interopRequireDefault(require("./routes/signupRoutes"));
 var _messageRoutes = _interopRequireDefault(require("./routes/messageRoutes"));
 var _signupController = _interopRequireDefault(require("./controllers/signupController"));
-var _commentController = _interopRequireDefault(require("./controllers/commentController"));
 var _connection = _interopRequireDefault(require("./connection/connection"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 _dotenv.default.config();

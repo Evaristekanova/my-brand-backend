@@ -4,6 +4,7 @@ import blogRouter from './routes/blogRoutes';
 import signupRouter from './routes/signupRoutes';
 import messageCRouter from './routes/messageRoutes';
 import signupControllers from './controllers/signupController';
+import commentRouter from './controllers/commentController'
 import connection from './connection/connection';
 dotenv.config();
 const app = express();

@@ -113,7 +113,9 @@ exports.login = async (req, res) => {
     const { SECRET_KEY } = process.env;
     jwt.sign({ user }, SECRET_KEY, (err, token) => {
       req.token = token;
-      res.json(req.token);
+      req.user = user
+      console.log(req.user, 'from login');
+      res.json(req.token,);
     });
     // res.status(203).json({ message: 'access granted' });
   } catch (err) {

@@ -1,7 +1,7 @@
 import express from 'express';
-import { Router } from 'express';
 import upload from '../store/multer';
 import blogControllers from '../controllers/blogController';
+import commentController from '../controllers/commentController';
 import verifyToken from '../auth/auth';
 const router = express.Router();
 
@@ -12,8 +12,16 @@ router
 router
   .route('/:id')
   .get(blogControllers.getSingleBlog)
-  .put(upload.single('image'), blogControllers.updateBlog)
-  .delete(blogControllers.deleteBlog);
+  .put(verifyToken,upload.single('image'), blogControllers.updateBlog)
+  .delete(verifyToken,blogControllers.deleteBlog);
+router
+  .route('/:id/comment')
+  .get(commentController.getAllComments)
+  .post(verifyToken, commentController.postComment);
 
-  // export router to be used in server.js
+// router
+//   .route('./:id/comment/')
+//   .get(verifyToken, commentController.getComment);
+
+// export router to be used in server.js
 module.exports = router;

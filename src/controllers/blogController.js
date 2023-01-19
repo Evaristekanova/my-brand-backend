@@ -1,17 +1,16 @@
 import blogPost from '../models/blogs';
-import cloudinary from 'cloudinary';
+import cloudinary from 'cloudinary'
 const jwt = require('jsonwebtoken');
 import uploads from '../store/cloudinary';
 
 exports.postBlog = async (req, res) => {
   try {
     const { SECRET_KEY } = process.env;
-    console.log(req.user, 'from blogController');
-    // jwt.verify(req.token, SECRET_KEY, (err, authData) => {
-    //   if (err) {
-    //     return res.status(403).json({message:"mismatch of tokens"});
-    //   }
-    // });
+    jwt.verify(req.token, SECRET_KEY, (err, authData) => {
+      if (err) {
+        return res.status(403).json({message:"mismatch of tokens"});
+      }
+    });
     // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
     const { title, shortDescription, fullDescription } = req.body;
@@ -36,9 +35,7 @@ exports.postBlog = async (req, res) => {
 };
 exports.getAllBlogs = async (req, res) => {
   try {
-    const allBlogs = await blogPost
-      .find()
-      .populate('comments');
+    const allBlogs = await blogPost.find({});
     res.json(allBlogs);
   } catch (err) {
     console.log(err);
@@ -47,15 +44,14 @@ exports.getAllBlogs = async (req, res) => {
 
 exports.getSingleBlog = async (req, res) => {
   try {
-    if (req.params.id.length != 24) {
-      res.json({ message: 'incorrect id' });
-    }
-    const blog = await blogPost
-      .findOne({ _id: req.params.id })
-      .populate('comments');
+    if (req.params.id.length !=24) {
+      res.json({message:"incorrect id"})
+    };
+    const blog = await blogPost.findById(req.params.id);
     if (!blog) {
-      res.json({ message: "the blog doesn't exist" });
-    } else {
+      res.json({message:"the blog doesn't exist"})
+    }
+    else {
       res.json(blog);
     }
   } catch (err) {

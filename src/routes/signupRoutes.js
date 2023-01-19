@@ -1,5 +1,4 @@
 import express from 'express'
-import verifyToken from '../auth/auth';
 import signupControllers from '../controllers/signupController'
 // import verifyToken from '../auth/auth'
 

@@ -114,7 +114,11 @@ exports.login = async (req, res) => {
     jwt.sign({ user }, SECRET_KEY, (err, token) => {
       req.token = token;
       req.user = user
-      res.json(req.token,);
+      res.status(200).json({
+        status: "success",
+        message: "you've logged in",
+        data:req.token
+      });
     });
   } catch (err) {
     res.json(err);

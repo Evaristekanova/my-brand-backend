@@ -46,7 +46,10 @@ exports.getComment = async (req, res) => {
     }
     const comment = await comments.findById(req.params.id);
     if (!comment) {
-      res.json({ message: "the comment doesn't exist" });
+      res.status(404).json({
+        status:"comment not found",
+        message: "the comment doesn't exist"
+      });
     } else {
       res.status(200).json(comment);
     }
@@ -57,14 +60,24 @@ exports.getComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
   try {
     if (req.params.id.length != 24) {
-      res.json({ message: 'incorrect id' });
+      res.status(404).json({
+        status:"invalid id",
+        message: 'incorrect id'
+      });
     }
     const comment = await comments.findById(req.params.id);
     if (!comment) {
-      res.json({ message: "the comment doesn't exist" });
+      res.status(404).json({
+        status:"comment not found",
+        message: "the comment doesn't exist"
+      });
     } else {
       comment.remove();
-      res.status(200).json({ message: 'message deleted successfully' });
+      res.status(200).json({
+        status:"success",
+        message: 'message deleted successfully',
+        comment
+      });
     }
   } catch (err) {
     console.log(err);

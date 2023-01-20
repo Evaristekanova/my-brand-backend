@@ -2,6 +2,7 @@ import blogPost from '../models/blogs';
 import cloudinary from 'cloudinary';
 const jwt = require('jsonwebtoken');
 import uploads from '../store/cloudinary';
+import status from 'statuses';
 
 exports.postBlog = async (req, res) => {
   try {
@@ -28,7 +29,11 @@ exports.postBlog = async (req, res) => {
         cloudinary_id: result.public_id,
       };
       const newBlog = await blogPost.create(user);
-      res.status(201).json({ messag: 'blog created successfully' });
+      res.status(201).json({
+        status:"success",
+        messag: 'blog created successfully',
+        newBlog
+      });
     }
   } catch (err) {
     console.log(err);
@@ -54,7 +59,10 @@ exports.getSingleBlog = async (req, res) => {
       .findOne({ _id: req.params.id })
       .populate('comments');
     if (!blog) {
-      res.json({ message: "the blog doesn't exist" });
+      res.status(404).json({
+        status:"fail",
+        message: "the blog doesn't exist"
+      });
     } else {
       res.json(blog);
     }
@@ -74,7 +82,11 @@ exports.deleteBlog = async (req, res) => {
       await cloudinary.uploader.destroy(blog.cloudinary_id);
       await blog.remove();
     }
-    res.json({ messag: 'blog deleted.' });
+    res.status(400).json({
+      status:"success",
+      messag: 'blog deleted.',
+      blog
+    });
   } catch (err) {
     console.log(err);
     res.send(err);
@@ -87,7 +99,10 @@ exports.updateBlog = async (req, res) => {
     }
     let blog = await blogPost.findById(req.params.id);
     if (!blog) {
-      res.json({ message: "the blog doesn't exist" });
+      res.status(400).json({
+        status:"bad request",
+        message: "the blog doesn't exist"
+      });
     } else {
       // Delete image from cloudinary
       await cloudinary.uploader.destroy(blog.cloudinary_id);
@@ -107,7 +122,11 @@ exports.updateBlog = async (req, res) => {
       blog = await blogPost.findByIdAndUpdate(req.params.id, data, {
         new: true,
       });
-      res.json({ message: 'blog updated successfully' });
+      res.status(201).json({
+        message: 'blog updated successfully',
+        status: 'success',
+        blog
+      });
     }
   } catch (err) {
     console.log(err);

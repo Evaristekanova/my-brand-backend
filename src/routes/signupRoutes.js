@@ -1,18 +1,15 @@
-import express from 'express'
+import express from 'express';
 import verifyToken from '../auth/auth';
-import signupControllers from '../controllers/signupController'
+import signupControllers from '../controllers/signupController';
 // import verifyToken from '../auth/auth'
 
 const router = express.Router();
 
+router.route('/all').get(signupControllers.getAllUsers);
+router.route('/newUser').post(signupControllers.postUser);
+router.route('/user/:id').get(signupControllers.getUser);
+router.route('/editUser/:id').put(verifyToken, signupControllers.editUser);
 router
-  .route('/')
-  .get(signupControllers.getAllUsers)
-  .post(signupControllers.postUser)
-router
-  .route('/:id')
-  .get(signupControllers.getUser)
-  .put(signupControllers.editUser)
-  .delete(signupControllers.deleteUser);
-
+  .route('/deleteUser/:id')
+  .delete(verifyToken, signupControllers.deleteUser);
 module.exports = router;

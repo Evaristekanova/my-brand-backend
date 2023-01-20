@@ -1,17 +1,28 @@
-import express from 'express'
+import express from 'express';
 import dotenv from 'dotenv';
 import blogRouter from './routes/blogRoutes';
 import signupRouter from './routes/signupRoutes';
 import messageCRouter from './routes/messageRoutes';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUI from 'swagger-ui-express';
 import signupControllers from './controllers/signupController';
-import commentRouter from './controllers/commentController'
+import commentRouter from './controllers/commentController';
 import connection from './connection/connection';
+// import options from './documentation/register';
+import { docrouter } from './documentation/swagger.doc';
+// import swaggerDocumentation from '../helper/documentation.js';
 dotenv.config();
 const app = express();
 app.use(express.json());
 
 // ================== ENDPOINTs ===================//
-// upload.single('image');
+app.use('/doc', docrouter);
+// app.use('/documentation', swaggerUI.serve, swaggerUI.setup(options));
+// app.use(
+//   '/documentation',
+//   swaggerUI.serve,
+//   swaggerUI.setup(swaggerDocumentation)
+// );
 app.use('/blog', blogRouter);
 app.use('/message', messageCRouter);
 app.use('/register', signupRouter);

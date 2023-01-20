@@ -5,23 +5,20 @@ import commentController from '../controllers/commentController';
 import verifyToken from '../auth/auth';
 const router = express.Router();
 
+router.route('/all').get(blogControllers.getAllBlogs);
 router
-  .route('/')
-  .get(blogControllers.getAllBlogs)
+  .route('/newBlog')
   .post(verifyToken, upload.single('image'), blogControllers.postBlog);
+router.route('/single/:id').get(blogControllers.getSingleBlog);
 router
-  .route('/:id')
-  .get(blogControllers.getSingleBlog)
-  .put(verifyToken,upload.single('image'), blogControllers.updateBlog)
-  .delete(verifyToken,blogControllers.deleteBlog);
+  .route('/update/:id')
+  .put(verifyToken, upload.single('image'), blogControllers.updateBlog);
+
+router.route('/delete/:id').delete(verifyToken, blogControllers.deleteBlog);
+
+router.route('/:id/comments').get(commentController.getAllComments);
 router
-  .route('/:id/comment')
-  .get(commentController.getAllComments)
+  .route('/:id/newcomment')
   .post(verifyToken, commentController.postComment);
 
-// router
-//   .route('./:id/comment/')
-//   .get(verifyToken, commentController.getComment);
-
-// export router to be used in server.js
 module.exports = router;

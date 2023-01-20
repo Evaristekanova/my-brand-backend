@@ -6,7 +6,7 @@ exports.postMsg = async (req, res) => {
     if (!firstName || !secondName || !email || !message) {
       res.json({ message: 'all fields are required' });
     } else {
-      newMsg = await message.create({
+     const newMsg = await message.create({
         firstName,
         secondName,
         email,
@@ -49,8 +49,7 @@ exports.deleteMsg = async (req, res) => {
     const msg = await message.findById(req.params.id);
     if (!msg) {
       res.json({ message: "the message doesn't exist" });
-    }
-    else {
+    } else {
       const dltMsg = await message.findById(req.params.id);
       dltMsg.remove();
       res.status(200).json(dltMsg);

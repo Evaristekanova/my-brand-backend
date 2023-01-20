@@ -114,10 +114,8 @@ exports.login = async (req, res) => {
     jwt.sign({ user }, SECRET_KEY, (err, token) => {
       req.token = token;
       req.user = user
-      console.log(req.user, 'from login');
       res.json(req.token,);
     });
-    // res.status(203).json({ message: 'access granted' });
   } catch (err) {
     res.json(err);
   }

@@ -13,6 +13,7 @@ exports.postComment = async (req, res) => {
       const newComment = await comments.create({
         commentContent,
         blog: blogId,
+        userName:user.name,
         user: userId,
       });
       await blopPost.updateOne(

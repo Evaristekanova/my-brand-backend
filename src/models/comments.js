@@ -16,6 +16,9 @@ const schema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users',
   },
+  userName: {
+    type: String
+  }
 });
 const comments = mongoose.model('comments', schema);
 module.exports = comments;

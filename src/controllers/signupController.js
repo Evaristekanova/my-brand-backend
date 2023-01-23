@@ -18,7 +18,10 @@ exports.postUser = async (req, res) => {
       email,
       password,
     });
-    res.status(201).json({ message: 'new user created successfully' });
+    res.status(201).json({
+      status:'success',
+      message: 'new user created successfully'
+    });
   } catch (error) {
     res.status(400).send(error);
   }

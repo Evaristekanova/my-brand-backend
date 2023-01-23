@@ -391,7 +391,6 @@ const options = {
       },
     },
     '/message/all': {
-      // post:{
       get: {
         tags: ['Message'],
         description: 'Getting all messages',
@@ -433,7 +432,6 @@ const options = {
     },
 
     '/message/deleteMessage/{id}': {
-      // get:{
       delete: {
         security: [],
         tags: ['Message'],

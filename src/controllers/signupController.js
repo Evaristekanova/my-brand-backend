@@ -19,8 +19,8 @@ exports.postUser = async (req, res) => {
       password,
     });
     res.status(201).json({
-      status:'success',
-      message: 'new user created successfully'
+      status: 'success',
+      message: 'new user created successfully',
     });
   } catch (error) {
     res.status(400).send(error);
@@ -36,9 +36,9 @@ exports.getAllUsers = async (req, res) => {
 };
 exports.getUser = async (req, res) => {
   try {
-     if (req.params.id.length != 24) {
-       res.json({ message: 'incorrect id' });
-     }
+    if (req.params.id.length != 24) {
+      res.json({ message: 'incorrect id' });
+    }
     const user = await signUp.findById(req.params.id);
     if (!user) {
       res.json({ message: "the user doesn't exist" });
@@ -50,18 +50,17 @@ exports.getUser = async (req, res) => {
 };
 exports.editUser = async (req, res) => {
   try {
-     if (req.params.id.length != 24) {
-       res.json({ message: 'incorrect id' });
-     }
-     const user = await signUp.findById(req.params.id);
-     if (!user) {
-       res.json({ message: "the user doesn't exist" });
-     }
+    if (req.params.id.length != 24) {
+      res.json({ message: 'incorrect id' });
+    }
+    const user = await signUp.findById(req.params.id);
+    if (!user) {
+      res.json({ message: "the user doesn't exist" });
+    }
 
     let result;
     let data;
-    if(req.body)
-        result = req.body
+    if (req.body) result = req.body;
     if (req.body.password) {
       let { password } = req.body;
       const salt = await bcrypt.genSalt();
@@ -89,16 +88,15 @@ exports.editUser = async (req, res) => {
 };
 exports.deleteUser = async (req, res) => {
   try {
-     if (req.params.id.length != 24) {
-       res.json({ message: 'incorrect id' });
-     }
-     const user = await signUp.findById(req.params.id);
-     if (!user) {
-       res.json({ message: "the user doesn't exist" });
-     }
-     else {
-       await user.remove();
-       res.status(200).json({ message: 'user deleted successfully' });
+    if (req.params.id.length != 24) {
+      res.json({ message: 'incorrect id' });
+    }
+    const user = await signUp.findById(req.params.id);
+    if (!user) {
+      res.json({ message: "the user doesn't exist" });
+    } else {
+      await user.remove();
+      res.status(200).json({ message: 'user deleted successfully' });
     }
   } catch (err) {
     console.log(err);
@@ -116,11 +114,11 @@ exports.login = async (req, res) => {
     const { SECRET_KEY } = process.env;
     jwt.sign({ user }, SECRET_KEY, (err, token) => {
       req.token = token;
-      req.user = user
+      req.user = user;
       res.status(200).json({
-        status: "success",
+        status: 'success',
         message: "you've logged in",
-        data:req.token
+        data: req.token,
       });
     });
   } catch (err) {
@@ -132,7 +130,7 @@ exports.logout = async (req, res) => {
   try {
     console.log(req.token);
     res.json({ message: 'user loged out' });
-    req.token = undefined
+    req.token = undefined;
   } catch (error) {
     console.log(error);
   }

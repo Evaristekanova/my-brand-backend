@@ -120,7 +120,7 @@
     "whatwg-url": "^11.0.0"
   },
   "scripts": {
-    "babel":  "babel src/server.js -d dist",
+    "babel": "babel src/server.js -d dist",
     "start": "npm run babel && nodemon --exec babel-node src/server.js"
   },
   "repository": {
@@ -141,7 +141,7 @@
     "@babel/preset-env": "^7.20.2",
     "eslint": "^8.32.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.27.4",
+    "eslint-plugin-import": "^2.27.5",
     "nodemon": "^2.0.20"
   }
 }

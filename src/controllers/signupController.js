@@ -114,7 +114,7 @@ exports.login = async (req, res) => {
       return res.json({ message: 'access dineid' });
     }
     const { SECRET_KEY } = process.env;
-    jwt.sign({ user }, SECRET_KEY, (err, token) => {
+    jwt.sign({ user }, SECRET_KEY, (_err, token) => {
       req.token = token;
       res.json(req.token);
     });

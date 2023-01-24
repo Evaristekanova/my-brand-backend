@@ -18,7 +18,7 @@ exports.postMsg = async (req, res) => {
     console.log(err);
   }
 };
-exports.getAllMsg = async (req, res) => {
+exports.getAllMsg = async (_req, res) => {
   try {
     const allMsg = await message.find();
     res.status(200).json(allMsg);

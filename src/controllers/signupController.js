@@ -18,12 +18,15 @@ exports.postUser = async (req, res) => {
       email,
       password,
     });
-    res.status(201).json({ message: 'new user created successfully' });
+    res.status(201).json({
+      message: 'new user created successfully',
+      data:newuser
+    });
   } catch (error) {
     res.status(400).send(error);
   }
 };
-exports.getAllUsers = async (req, res) => {
+exports.getAllUsers = async (_req, res) => {
   try {
     const allUsers = await signUp.find();
     res.json(allUsers);
@@ -104,7 +107,7 @@ exports.deleteUser = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    let { email, password } = req.body;
+    const { email, password } = req.body;
     const user = await signUp.findOne({ email });
     const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) {
@@ -121,7 +124,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.logout = async (req, res) => {
+exports.logout =(req, res) => {
   try {
     console.log(req.token);
     res.json({ message: 'user loged out' });

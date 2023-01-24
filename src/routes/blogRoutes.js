@@ -1,5 +1,4 @@
 import express from 'express';
-import { Router } from 'express';
 import upload from '../store/multer';
 import blogControllers from '../controllers/blogController';
 import verifyToken from '../auth/auth';

@@ -4,7 +4,7 @@ import blogRouter from './routes/blogRoutes';
 import signupRouter from './routes/signupRoutes';
 import messageCRouter from './routes/messageRoutes';
 import signupControllers from './controllers/signupController';
-import connection from './connection/connection';
+import _connection from './connection/connection';
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -16,7 +16,7 @@ app.use('/message', messageCRouter);
 app.use('/register', signupRouter);
 app.use('/login', signupControllers.login);
 app.use('/logout', signupControllers.logout);
-app.use((req, res) => {
+app.use((_req, res) => {
   res.status(404).json({
     message: 'the page not found',
   });

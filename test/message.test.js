@@ -1,7 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const message = require('../src/models/messages');
-const server = require('../src/server.js');
+const app = require('../src/server.js');
 
 chai.should();
 chai.use(chaiHttp);
@@ -16,7 +16,7 @@ describe('send a message', () => {
     });
     msg.save((err, msg) => {
       chai
-        .request(server)
+        .request(app)
         .post('/message/newMessage')
         .send(msg)
         .end((err, res) => {
@@ -33,7 +33,7 @@ describe('send a message', () => {
 // describe('GET all messages', () => {
 //   it('it should GET all the messages', (done) => {
 //     chai
-//       .request(server)
+//       .request(app)
 //       .get('/message/all')
 //       .end((err, res) => {
 //         res.should.have.status(200);

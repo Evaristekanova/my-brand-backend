@@ -1,7 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const signUp = require('../src/models/signUp');
-const server = require('../src/server.js');
+const app = require('../src/server.js');
 
 chai.should();
 chai.use(chaiHttp);
@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 describe('GET all users', () => {
   it('it should GET all the users', (done) => {
     chai
-      .request(server)
+      .request(app)
       .get('/register/all')
       .end((err, res) => {
         res.should.have.status(200);
@@ -29,7 +29,7 @@ describe('Get a single user', () => {
     });
     user.save((err, user) => {
       chai
-        .request(server)
+        .request(app)
         .get(`/register/user/${user.id}`)
         .send(user)
         .end((err, res) => {
@@ -46,7 +46,7 @@ describe('authenticate user', () => {
   it('user must be logged in', (done) => {
     const user = { email: 'mdash@gmail.com', password: '1234567' };
     chai
-      .request(server)
+      .request(app)
       .post('/login')
       .send(user)
       .end((err, res) => {
@@ -72,7 +72,7 @@ describe('POST a User', () => {
       password: 'password123',
     };
     chai
-      .request(server)
+      .request(app)
       .post('/register/newUser')
       .send(user)
       .end((err, res) => {

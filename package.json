@@ -123,7 +123,6 @@
     "@babel/register": "^7.18.9"
   },
   "scripts": {
-    "build": "babel index.js -d dist",
     "babel":  "babel src -d dist",
     "start": "npm run babel && node dist/server.js",
     "dev": "npm run babel && nodemon --exec babel-node src/server.js",

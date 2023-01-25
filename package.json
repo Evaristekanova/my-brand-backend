@@ -119,7 +119,7 @@
   },
   "scripts": {
     "babel": "babel src/server.js -d dist",
-    "start": "npm run babel && babel-node src/server.js",
+    "start": "babel-node src/server.js",
     "dev": "npm run babel && nodemon --exec babel-node src/server.js",
     "test": "mocha --require @babel/register --timeout 40000",
     "lint": "eslint .",

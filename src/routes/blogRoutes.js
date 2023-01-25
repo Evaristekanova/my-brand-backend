@@ -1,19 +1,24 @@
 import express from 'express';
-import { Router } from 'express';
 import upload from '../store/multer';
 import blogControllers from '../controllers/blogController';
+import commentController from '../controllers/commentController';
 import verifyToken from '../auth/auth';
 const router = express.Router();
 
+router.route('/all').get(blogControllers.getAllBlogs);
 router
-  .route('/')
-  .get(blogControllers.getAllBlogs)
+  .route('/newBlog')
   .post(verifyToken, upload.single('image'), blogControllers.postBlog);
+router.route('/single/:id').get(blogControllers.getSingleBlog);
 router
-  .route('/:id')
-  .get(blogControllers.getSingleBlog)
-  .put(upload.single('image'), blogControllers.updateBlog)
-  .delete(blogControllers.deleteBlog);
+  .route('/update/:id')
+  .put(verifyToken, upload.single('image'), blogControllers.updateBlog);
 
-  // export router to be used in server.js
+router.route('/delete/:id').delete(verifyToken, blogControllers.deleteBlog);
+
+router.route('/:id/comments').get(commentController.getAllComments);
+router
+  .route('/:id/newcomment')
+  .post(verifyToken, commentController.postComment);
+
 module.exports = router;

@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
-import signUp from '../models/signUp';
 import jwt from 'jsonwebtoken';
+import signUp from '../models/signUp';
+
 require('dotenv').config();
 
 exports.postUser = async (req, res) => {
@@ -44,8 +45,8 @@ exports.getUser = async (req, res) => {
       res.json({ message: "the user doesn't exist" });
     }
     res.status(200).json({
-      status:"success",
-      user: user
+      status: 'success',
+      user,
     });
   } catch (err) {
     console.log(err);
@@ -70,7 +71,7 @@ exports.editUser = async (req, res) => {
       password = await bcrypt.hash(req.body.password, salt);
       data = {
         name: result?.name || user.name,
-        password: password,
+        password,
         email: result?.email || user.email,
       };
     } else {
@@ -108,7 +109,7 @@ exports.deleteUser = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    let { email, password } = req.body;
+    const { email, password } = req.body;
     const user = await signUp.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: 'unknown user' });
@@ -121,7 +122,7 @@ exports.login = async (req, res) => {
     jwt.sign({ user }, SECRET_KEY, (err, token) => {
       req.token = token;
       req.user = user;
-      user.token = token
+      user.token = token;
       res.status(200).json({
         status: 'success',
         message: "you've logged in",

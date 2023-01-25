@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+
 const schema = mongoose.Schema({
   firstName: { type: String },
   secondName: { type: String },

@@ -13,13 +13,13 @@ exports.postComment = async (req, res) => {
       const newComment = await comments.create({
         commentContent,
         blog: blogId,
-        userName:user.name,
+        userName: user.name,
         user: userId,
       });
       await blopPost.updateOne(
         { _id: blogId },
         {
-          $push: { comments: newComment._id},
+          $push: { comments: newComment._id },
         }
       );
       res.status(201).json({
@@ -48,8 +48,8 @@ exports.getComment = async (req, res) => {
     const comment = await comments.findById(req.params.id);
     if (!comment) {
       res.status(404).json({
-        status:"comment not found",
-        message: "the comment doesn't exist"
+        status: 'comment not found',
+        message: "the comment doesn't exist",
       });
     } else {
       res.status(200).json(comment);
@@ -62,22 +62,22 @@ exports.deleteComment = async (req, res) => {
   try {
     if (req.params.id.length != 24) {
       res.status(404).json({
-        status:"invalid id",
-        message: 'incorrect id'
+        status: 'invalid id',
+        message: 'incorrect id',
       });
     }
     const comment = await comments.findById(req.params.id);
     if (!comment) {
       res.status(404).json({
-        status:"comment not found",
-        message: "the comment doesn't exist"
+        status: 'comment not found',
+        message: "the comment doesn't exist",
       });
     } else {
       comment.remove();
       res.status(200).json({
-        status:"success",
+        status: 'success',
         message: 'message deleted successfully',
-        comment
+        comment,
       });
     }
   } catch (err) {

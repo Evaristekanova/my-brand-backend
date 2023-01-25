@@ -1,10 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUI from 'swagger-ui-express';
 import blogRouter from './routes/blogRoutes';
 import signupRouter from './routes/signupRoutes';
 import messageCRouter from './routes/messageRoutes';
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUI from 'swagger-ui-express';
 import signupControllers from './controllers/signupController';
 import commentRouter from './controllers/commentController';
 import connection from './connection/connection';
@@ -38,4 +38,4 @@ const { PORT } = process.env;
 app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}...`);
 });
-module.exports = app
+module.exports = app;

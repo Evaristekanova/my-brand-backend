@@ -3,6 +3,7 @@ import upload from '../store/multer';
 import blogControllers from '../controllers/blogController';
 import commentController from '../controllers/commentController';
 import verifyToken from '../auth/auth';
+
 const router = express.Router();
 
 router.route('/all').get(blogControllers.getAllBlogs);

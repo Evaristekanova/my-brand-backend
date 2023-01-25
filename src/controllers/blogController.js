@@ -1,8 +1,10 @@
-import blogPost from '../models/blogs';
 import cloudinary from 'cloudinary';
-const jwt = require('jsonwebtoken');
-import uploads from '../store/cloudinary';
 import status from 'statuses';
+import blogPost from '../models/blogs';
+
+import uploads from '../store/cloudinary';
+
+const jwt = require('jsonwebtoken');
 
 exports.postBlog = async (req, res) => {
   try {
@@ -21,7 +23,7 @@ exports.postBlog = async (req, res) => {
     }
     // Create new user
     else {
-      let user = {
+      const user = {
         title,
         shortDescription,
         fullDescription,
@@ -30,9 +32,9 @@ exports.postBlog = async (req, res) => {
       };
       const newBlog = await blogPost.create(user);
       res.status(201).json({
-        status:"success",
+        status: 'success',
         messag: 'blog created successfully',
-        newBlog
+        newBlog,
       });
     }
   } catch (err) {
@@ -41,9 +43,7 @@ exports.postBlog = async (req, res) => {
 };
 exports.getAllBlogs = async (req, res) => {
   try {
-    const allBlogs = await blogPost
-      .find()
-      .populate('comments');
+    const allBlogs = await blogPost.find().populate('comments');
     res.json(allBlogs);
   } catch (err) {
     console.log(err);
@@ -60,8 +60,8 @@ exports.getSingleBlog = async (req, res) => {
       .populate('comments');
     if (!blog) {
       res.status(404).json({
-        status:"fail",
-        message: "the blog doesn't exist"
+        status: 'fail',
+        message: "the blog doesn't exist",
       });
     } else {
       res.json(blog);
@@ -83,9 +83,9 @@ exports.deleteBlog = async (req, res) => {
       await blog.remove();
     }
     res.status(400).json({
-      status:"success",
+      status: 'success',
       messag: 'blog deleted.',
-      blog
+      blog,
     });
   } catch (err) {
     console.log(err);
@@ -100,8 +100,8 @@ exports.updateBlog = async (req, res) => {
     let blog = await blogPost.findById(req.params.id);
     if (!blog) {
       res.status(400).json({
-        status:"bad request",
-        message: "the blog doesn't exist"
+        status: 'bad request',
+        message: "the blog doesn't exist",
       });
     } else {
       // Delete image from cloudinary
@@ -125,7 +125,7 @@ exports.updateBlog = async (req, res) => {
       res.status(201).json({
         message: 'blog updated successfully',
         status: 'success',
-        blog
+        blog,
       });
     }
   } catch (err) {

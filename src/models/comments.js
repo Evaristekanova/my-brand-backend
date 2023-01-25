@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
+
 const schema = mongoose.Schema({
   commentContent: {
     type: String,
     required: true,
-    },
-    date: {
-        type: Date,
-        default: new Date()
-    },
+  },
+  date: {
+    type: Date,
+    default: new Date(),
+  },
   blog: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'blogs',
@@ -17,8 +18,8 @@ const schema = mongoose.Schema({
     ref: 'Users',
   },
   userName: {
-    type: String
-  }
+    type: String,
+  },
 });
 const comments = mongoose.model('comments', schema);
 module.exports = comments;

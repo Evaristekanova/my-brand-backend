@@ -1,4 +1,5 @@
-import userRoutesDoc from '../helper/register.swagger'
+import userRoutesDoc from '../helper/register.swagger';
+
 const options = {
   openapi: '3.0.0',
   info: {

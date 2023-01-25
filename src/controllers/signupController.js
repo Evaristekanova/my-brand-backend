@@ -18,15 +18,12 @@ exports.postUser = async (req, res) => {
       email,
       password,
     });
-    res.status(201).json({
-      message: 'new user created successfully',
-      data:newuser
-    });
+    res.status(201).json({ message: 'new user created successfully' });
   } catch (error) {
     res.status(400).send(error);
   }
 };
-exports.getAllUsers = async (_req, res) => {
+exports.getAllUsers = async (req, res) => {
   try {
     const allUsers = await signUp.find();
     res.json(allUsers);
@@ -107,14 +104,14 @@ exports.deleteUser = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
     const user = await signUp.findOne({ email });
     const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) {
       return res.json({ message: 'access dineid' });
     }
     const { SECRET_KEY } = process.env;
-    jwt.sign({ user }, SECRET_KEY, (_err, token) => {
+    jwt.sign({ user }, SECRET_KEY, (err, token) => {
       req.token = token;
       res.json(req.token);
     });
@@ -124,7 +121,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.logout =(req, res) => {
+exports.logout = async (req, res) => {
   try {
     console.log(req.token);
     res.json({ message: 'user loged out' });

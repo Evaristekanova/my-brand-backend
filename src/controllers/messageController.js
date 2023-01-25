@@ -6,7 +6,7 @@ exports.postMsg = async (req, res) => {
     if (!firstName || !secondName || !email || !message) {
       res.json({ message: 'all fields are required' });
     } else {
-     const newMsg = await message.create({
+      const newMsg = await message.create({
         firstName,
         secondName,
         email,
@@ -38,8 +38,8 @@ exports.getMsg = async (req, res) => {
     const msg = await message.findById(req.params.id);
     if (!msg) {
       res.status(404).json({
-        status:"message not found",
-        message: "the message doesn't exist"
+        status: 'message not found',
+        message: "the message doesn't exist",
       });
     } else {
       res.status(200).json(msg);
@@ -52,8 +52,8 @@ exports.deleteMsg = async (req, res) => {
   try {
     if (req.params.id.length != 24) {
       res.status(400).json({
-        status:"fail",
-        message: 'incorrect id'
+        status: 'fail',
+        message: 'incorrect id',
       });
     }
     const msg = await message.findById(req.params.id);
@@ -68,7 +68,7 @@ exports.deleteMsg = async (req, res) => {
       res.status(200).json({
         status: 'success',
         message: 'message deleted successfully.',
-        dltMsg
+        dltMsg,
       });
     }
   } catch (err) {

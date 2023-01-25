@@ -22,7 +22,7 @@ describe('GET all users', () => {
 
 describe('Get a single user', () => {
   it('return user with specified id', (done) => {
-    let user = new signUp({
+    const user = new signUp({
       name: 'Jonas',
       email: 'jonas.io',
       password: '1234567',
@@ -30,7 +30,7 @@ describe('Get a single user', () => {
     user.save((err, user) => {
       chai
         .request(server)
-        .get('/register/user/' + user.id)
+        .get(`/register/user/${user.id}`)
         .send(user)
         .end((err, res) => {
           res.body.should.be.a('object');

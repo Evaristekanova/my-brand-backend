@@ -115,11 +115,17 @@
     "uuid": "^9.0.0",
     "vary": "^1.1.2",
     "webidl-conversions": "^7.0.0",
-    "whatwg-url": "^11.0.0"
+    "whatwg-url": "^11.0.0",
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/register": "^7.18.9",
+    "babel-register": "^6.26.0"
   },
   "scripts": {
     "babel": "babel src/server.js -d dist",
-    "start": "npm run babel && babel-node src/server.js",
+    "start": "babel-node src/server.js",
     "dev": "npm run babel && nodemon --exec babel-node src/server.js",
     "test": "mocha --require @babel/register --timeout 40000",
     "lint": "eslint .",

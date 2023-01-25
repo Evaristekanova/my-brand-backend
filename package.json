@@ -123,8 +123,9 @@
     "@babel/register": "^7.18.9"
   },
   "scripts": {
-    "babel": "babel src/server.js -d dist",
-    "start": "babel-node src/server.js",
+    "build": "babel index.js -d dist",
+    "babel":  "babel src -d dist",
+    "start": "npm run babel && node dist/server.js",
     "dev": "npm run babel && nodemon --exec babel-node src/server.js",
     "test": "mocha --require @babel/register --timeout 40000",
     "lint": "eslint .",

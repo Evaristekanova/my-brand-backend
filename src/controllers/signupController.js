@@ -7,10 +7,10 @@ exports.postUser = async (req, res) => {
   try {
     let { name, email, password } = req.body;
     if (!name || !email || !password) {
-      res.json({ message: 'All field are required' });
+      res.status(400).json({ message: 'All field are required' });
     }
     const user = await signUp.findOne({ email });
-    if (user) return res.json({ message: 'access dineid' });
+    if (user) return res.status(403).json({ message: 'access dineid' });
     const salt = await bcrypt.genSalt();
     password = await bcrypt.hash(password, salt);
     const newuser = await signUp.create({
@@ -18,7 +18,10 @@ exports.postUser = async (req, res) => {
       email,
       password,
     });
-    res.status(201).json({ message: 'new user created successfully' });
+    res.status(201).json({
+      status: 'success',
+      message: 'new user created successfully',
+    });
   } catch (error) {
     res.status(400).send(error);
   }
@@ -33,32 +36,34 @@ exports.getAllUsers = async (req, res) => {
 };
 exports.getUser = async (req, res) => {
   try {
-     if (req.params.id.length != 24) {
-       res.json({ message: 'incorrect id' });
-     }
+    if (req.params.id.length != 24) {
+      res.json({ message: 'incorrect id' });
+    }
     const user = await signUp.findById(req.params.id);
     if (!user) {
       res.json({ message: "the user doesn't exist" });
     }
-    res.json(user);
+    res.status(200).json({
+      status:"success",
+      user: user
+    });
   } catch (err) {
     console.log(err);
   }
 };
 exports.editUser = async (req, res) => {
   try {
-     if (req.params.id.length != 24) {
-       res.json({ message: 'incorrect id' });
-     }
-     const user = await signUp.findById(req.params.id);
-     if (!user) {
-       res.json({ message: "the user doesn't exist" });
-     }
+    if (req.params.id.length != 24) {
+      res.json({ message: 'incorrect id' });
+    }
+    const user = await signUp.findById(req.params.id);
+    if (!user) {
+      res.json({ message: "the user doesn't exist" });
+    }
 
     let result;
     let data;
-    if(req.body)
-        result = req.body
+    if (req.body) result = req.body;
     if (req.body.password) {
       let { password } = req.body;
       const salt = await bcrypt.genSalt();
@@ -86,16 +91,15 @@ exports.editUser = async (req, res) => {
 };
 exports.deleteUser = async (req, res) => {
   try {
-     if (req.params.id.length != 24) {
-       res.json({ message: 'incorrect id' });
-     }
-     const user = await signUp.findById(req.params.id);
-     if (!user) {
-       res.json({ message: "the user doesn't exist" });
-     }
-     else {
-       await user.remove();
-       res.status(200).json({ message: 'user deleted successfully' });
+    if (req.params.id.length != 24) {
+      res.json({ message: 'incorrect id' });
+    }
+    const user = await signUp.findById(req.params.id);
+    if (!user) {
+      res.json({ message: "the user doesn't exist" });
+    } else {
+      await user.remove();
+      res.status(200).json({ message: 'user deleted successfully' });
     }
   } catch (err) {
     console.log(err);
@@ -106,16 +110,24 @@ exports.login = async (req, res) => {
   try {
     let { email, password } = req.body;
     const user = await signUp.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'unknown user' });
+    }
     const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) {
-      return res.json({ message: 'access dineid' });
+      return res.status(404).json({ message: 'access dineid' });
     }
     const { SECRET_KEY } = process.env;
     jwt.sign({ user }, SECRET_KEY, (err, token) => {
       req.token = token;
-      res.json(req.token);
+      req.user = user;
+      user.token = token
+      res.status(200).json({
+        status: 'success',
+        message: "you've logged in",
+        data: req.token,
+      });
     });
-    // res.status(203).json({ message: 'access granted' });
   } catch (err) {
     res.json(err);
   }
@@ -125,7 +137,7 @@ exports.logout = async (req, res) => {
   try {
     console.log(req.token);
     res.json({ message: 'user loged out' });
-    req.token = undefined
+    user.token = undefined;
   } catch (error) {
     console.log(error);
   }

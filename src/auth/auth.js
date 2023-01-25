@@ -7,7 +7,11 @@ async function verifyToken(req, res, next) {
   if(typeof bearerHeader == 'undefined') {
     // Forbidden
     return res.status(403).json({ message: 'Access dineid' });
-  } else {
+  }
+  else if (!(user.token)) {
+    return res.status(403).json({ message: 'Access dineid' });
+  }
+  else {
       const bearer = bearerHeader.split(' ');
       const { SECRET_KEY } = process.env;
       const bearerToken = bearer[1];

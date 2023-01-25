@@ -12,7 +12,11 @@ exports.postMsg = async (req, res) => {
         email,
         messages,
       });
-      res.status(201).json(newMsg);
+      res.status(201).json({
+        status: 'success',
+        message: 'message sent',
+        data: newMsg,
+      });
     }
   } catch (err) {
     console.log(err);

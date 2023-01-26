@@ -190,36 +190,7 @@ const options = {
       post: {
         tags: ['Blog'],
         description: 'Create new blog',
-        parameters: [
-          {
-            in: 'formData',
-            name: 'title',
-            description: 'Article title',
-            required: true,
-          },
-          {
-            in: 'formData',
-            name: 'shortDescription',
-            description: 'Article content',
-            required: true,
-          },
-          {
-            in: 'formData',
-            name: 'fullDescription',
-            description: 'Article content',
-            required: true,
-          },
-          {
-            in: 'form',
-            name: 'photo',
-            scheme: {
-              type: 'string',
-              description: 'Article image url',
-              format: 'binary',
-            },
-            required: true,
-          },
-        ],
+        parameters: [],
         requestBody: {
           content: {
             'multipart/form-data': {
@@ -256,16 +227,10 @@ const options = {
         ],
         requestBody: {
           content: {
-            'application/json': {
+            'multipart/form-data': {
               schema: {
                 $ref: '#/components/schemas/Blog',
-              },
-              example: {
-                title: 'testing blog article title update',
-                shortDescription: 'testing blog article content update',
-                fullDescription:
-                  'testing blog article content updatewedfghj......',
-              },
+              }
             },
           },
           required: true,
@@ -327,7 +292,13 @@ const options = {
       post: {
         tags: ['Blog'],
         description: 'Comment on blog article',
-        parameters: [],
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+          },
+        ],
         requestBody: {
           content: {
             'application/json': {
@@ -410,7 +381,6 @@ const options = {
     },
     '/message/single/{id}': {
       get: {
-        security: [],
         tags: ['Message'],
         description: 'Get single message by id',
         parameters: [
@@ -433,7 +403,6 @@ const options = {
 
     '/message/deleteMessage/{id}': {
       delete: {
-        security: [],
         tags: ['Message'],
         description: 'delete single blog by id',
         parameters: [
@@ -464,7 +433,7 @@ const options = {
             type: 'string',
             description: 'The auto-generated id of the user',
           },
-          username: {
+          name: {
             type: 'string',
             description: "User's names",
           },
@@ -498,7 +467,7 @@ const options = {
             type: 'string',
             description: 'Article content',
           },
-          photo: {
+          image: {
             type: 'string',
             description: 'Article image url',
             format: 'binary',
@@ -517,11 +486,11 @@ const options = {
             type: 'string',
             description: 'sender name',
           },
-          senderEmail: {
+          email: {
             type: 'string',
             description: 'sender email',
           },
-          messages: {
+          message: {
             type: 'string',
             description: 'message content',
           },

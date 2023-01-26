@@ -9,7 +9,7 @@ const options = {
     title: 'My Brand',
     version: '1.0.0',
     description:
-      'this the list of BenDev brand API documentation created in node js.',
+      'this the list of Evariste brand API documentation created in node js.',
   },
   host: 'http://localhost:8000',
   security: [
@@ -490,7 +490,11 @@ const options = {
             type: 'string',
             description: 'Article title',
           },
-          content: {
+          shortDescription: {
+            type: 'string',
+            description: 'Article content',
+          },
+          fullDescription: {
             type: 'string',
             description: 'Article content',
           },

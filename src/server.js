@@ -17,17 +17,14 @@ app.use(express.json());
 
 // ================== ENDPOINTs ===================//
 app.use('/doc', docrouter);
-// app.use('/documentation', swaggerUI.serve, swaggerUI.setup(options));
-// app.use(
-//   '/documentation',
-//   swaggerUI.serve,
-//   swaggerUI.setup(swaggerDocumentation)
-// );
 app.use('/blog', blogRouter);
 app.use('/message', messageCRouter);
 app.use('/register', signupRouter);
 app.use('/login', signupControllers.login);
 app.use('/logout', signupControllers.logout);
+app.use('/', (req, res) => {
+  res.json({message:'welcome to the home page'})
+})
 app.use((req, res) => {
   res.status(404).json({
     message: 'the page not found',

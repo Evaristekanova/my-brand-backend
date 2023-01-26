@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 exports.postBlog = async (req, res) => {
   try {
     const { SECRET_KEY } = process.env;
-    console.log(req.user, 'from blogController');
+    // console.log(req.user, 'from blogController');
     // jwt.verify(req.token, SECRET_KEY, (err, authData) => {
     //   if (err) {
     //     return res.status(403).json({message:"mismatch of tokens"});

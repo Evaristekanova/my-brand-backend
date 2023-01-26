@@ -9,9 +9,10 @@ async function verifyToken(req, res, next) {
     // Forbidden
     return res.status(403).json({ message: 'Access dineid' });
   }
-  if (!user.token) {
-    return res.status(403).json({ message: 'Access dineid' });
-  } else {
+  // if (!user.token) {
+  //   return res.status(403).json({ message: 'Access dineid' });
+  // } 
+  else {
     const bearer = bearerHeader.split(' ');
     const { SECRET_KEY } = process.env;
     const bearerToken = bearer[1];

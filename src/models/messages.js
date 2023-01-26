@@ -7,4 +7,4 @@ const schema = mongoose.Schema({
   messages: { type: String },
 });
 const message = mongoose.model('messages', schema);
-module.exports = message;
+export default message;

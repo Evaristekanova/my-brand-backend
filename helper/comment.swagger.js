@@ -87,4 +87,4 @@ const commentRouterDoc = {
   //   delete: deleteuser,
   // },
 };
-module.exports = commentRouterDoc;
+export default commentRouterDoc;

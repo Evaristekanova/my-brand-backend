@@ -1,7 +1,7 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const message = require('../src/models/messages');
-const app = require('../src/server.js');
+import chaiHttp from 'chai-http';
+import chai from 'chai';
+import message from '../src/models/messages';
+import app from '../src/server';
 
 chai.should();
 chai.use(chaiHttp);

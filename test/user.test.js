@@ -1,7 +1,7 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const signUp = require('../src/models/signUp');
-const app = require('../src/server.js');
+import chaiHttp from 'chai-http'
+import chai from'chai'
+import signUp from '../src/models/signUp';
+import app from'../src/server'
 
 chai.should();
 chai.use(chaiHttp);
@@ -27,12 +27,12 @@ describe('Get a single user', () => {
       email: 'jonas.io',
       password: '1234567',
     });
-    user.save((err, user) => {
+    user.save((_err, use) => {
       chai
         .request(app)
         .get(`/register/user/${user.id}`)
         .send(user)
-        .end((err, res) => {
+        .end((error, res) => {
           res.body.should.be.a('object');
           res.should.have.status(200);
           res.body.should.have.property('status');

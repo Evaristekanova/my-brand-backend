@@ -128,4 +128,4 @@ const messageRouterDoc = {
   // },
 };
 
-module.exports = messageRouterDoc;
+export default messageRouterDoc;

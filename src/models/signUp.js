@@ -10,4 +10,4 @@ const schema = mongoose.Schema({
   },
 });
 const signUp = mongoose.model('Users', schema);
-module.exports = signUp;
+export default signUp;

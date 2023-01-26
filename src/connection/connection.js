@@ -13,4 +13,4 @@ const connection = mongoose
   .then(() => console.log('connected'))
   .catch((err) => console.log(err));
 
-module.exports = connection;
+export default connection;

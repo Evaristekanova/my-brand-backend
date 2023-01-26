@@ -12,4 +12,4 @@ router.route('/editUser/:id').put(verifyToken, signupControllers.editUser);
 router
   .route('/deleteUser/:id')
   .delete(verifyToken, signupControllers.deleteUser);
-module.exports = router;
+export default router;

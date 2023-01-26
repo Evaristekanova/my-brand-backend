@@ -128,4 +128,4 @@ const userRouterDoc = {
     delete: deleteuser,
   },
 };
-module.exports = userRouterDoc;
+export default userRouterDoc;

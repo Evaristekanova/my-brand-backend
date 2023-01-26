@@ -214,4 +214,4 @@ const blogRouterDoc = {
   },
 };
 
-module.exports = blogRouterDoc;
+export default blogRouterDoc;

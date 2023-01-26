@@ -4,6 +4,11 @@
   "description": "this is backend for my capstone project, this will allow visitors to reach me and it contain both APIs endpoint that will allow CRUD operations",
   "main": "server.js",
   "dependencies": {
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/register": "^7.18.9",
     "array-flatten": "^1.1.1",
     "balanced-match": "^1.0.2",
     "bcrypt": "^5.1.0",
@@ -115,18 +120,14 @@
     "uuid": "^9.0.0",
     "vary": "^1.1.2",
     "webidl-conversions": "^7.0.0",
-    "whatwg-url": "^11.0.0",
-    "@babel/cli": "^7.20.7",
-    "@babel/core": "^7.20.12",
-    "@babel/node": "^7.20.7",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/register": "^7.18.9"
+    "whatwg-url": "^11.0.0"
   },
   "scripts": {
     "build": "babel src -d dist",
     "start": "node dist/server.js",
-    "dev": "npm run babel && nodemon --exec babel-node src/server.js",
-    "test": "mocha --require @babel/register --timeout 40000",
+    "dev": "npm run build && nodemon --exec babel-node src/server.js",
+    "test": " mocha --require @babel/register --timeout 40000",
+    "coverage": "nyc --reporter=text npm run test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
@@ -148,6 +149,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "nodemon": "^2.0.20",
+    "nyc": "^15.1.0",
     "prettier": "^2.8.3"
   }
 }

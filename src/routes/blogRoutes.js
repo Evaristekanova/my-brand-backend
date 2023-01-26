@@ -22,4 +22,4 @@ router
   .route('/:id/newcomment')
   .post(verifyToken, commentController.postComment);
 
-module.exports = router;
+export default router;

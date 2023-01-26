@@ -26,4 +26,4 @@ const schema = mongoose.Schema({
   ],
 });
 const blopPost = mongoose.model('blogs', schema);
-module.exports = blopPost;
+export default blopPost;

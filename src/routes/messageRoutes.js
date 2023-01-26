@@ -11,4 +11,4 @@ router
   .route('/deleteMessage/:id')
   .delete(verifyToken, messageControllers.deleteMsg);
 
-module.exports = router;
+export default router;

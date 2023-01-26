@@ -21,4 +21,4 @@ async function verifyToken(req, res, next) {
     next();
   }
 }
-module.exports = verifyToken;
+export default verifyToken;

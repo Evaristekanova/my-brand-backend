@@ -537,4 +537,4 @@ const options = {
 
 docrouter.use('/', serve, setup(options));
 
-// module.exports = docrouter;
+// export default docrouter;

@@ -28,4 +28,4 @@ const options = {
     ...userRoutesDoc,
   },
 };
-module.exports = options;
+export default options;

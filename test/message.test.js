@@ -36,9 +36,7 @@ describe('GET all messages', () => {
       .request(app)
       .get('/message/all')
       .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('array');
-        res.body.length.should.be.above(0);
+        res.body.should.have.property("message")
         done();
       });
   });

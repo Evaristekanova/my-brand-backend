@@ -127,7 +127,7 @@
     "start": "node dist/server.js",
     "dev": "npm run build && nodemon --exec babel-node src/server.js",
     "test": " mocha --require @babel/register --timeout 40000",
-    "coverage": "nyc --reporter=text npm run test",
+    "coverage": "npm run test && nyc --reporter=text",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

@@ -44,7 +44,10 @@ exports.postBlog = async (req, res) => {
 exports.getAllBlogs = async (req, res) => {
   try {
     const allBlogs = await blogPost.find().populate('comments');
-    res.json(allBlogs);
+    res.status(200).json({
+      status: "success",
+      data:allBlogs
+    });
   } catch (err) {
     console.log(err);
   }
@@ -64,7 +67,10 @@ exports.getSingleBlog = async (req, res) => {
         message: "the blog doesn't exist",
       });
     } else {
-      res.json(blog);
+      res.status(200).json({
+        status: "success",
+        data:blog
+      });
     }
   } catch (err) {
     console.log(err);

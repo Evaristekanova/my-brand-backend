@@ -11,7 +11,11 @@ exports.postUser = async (req, res) => {
       res.status(400).json({ message: 'All field are required' });
     }
     const user = await signUp.findOne({ email });
-    if (user) return res.status(403).json({ message: 'access dineid' });
+    if (user)
+      return res.status(400).json({
+        status:"fail",
+        error: 'Email already taken',
+      });
     const salt = await bcrypt.genSalt();
     password = await bcrypt.hash(password, salt);
     const newuser = await signUp.create({

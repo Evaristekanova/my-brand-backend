@@ -130,7 +130,7 @@ exports.login = async (req, res) => {
       res.status(200).json({
         status: 'success',
         message: "you've logged in",
-        data: req.token,
+        data:token,
       });
     });
   } catch (err) {

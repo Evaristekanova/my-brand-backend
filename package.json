@@ -127,7 +127,7 @@
     "start": "node dist/server.js",
     "dev": "npm run build && nodemon --exec babel-node src/server.js",
     "test": " mocha --require @babel/register --timeout 40000",
-    "coverage": "npm run test && nyc --reporter=text",
+    "coverage": "nyc --reporter=html --report-dir=caverage/ npm run test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
@@ -151,5 +151,8 @@
     "nodemon": "^2.0.20",
     "nyc": "^15.1.0",
     "prettier": "^2.8.3"
+  },
+  "directories": {
+    "test": "test"
   }
 }

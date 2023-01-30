@@ -8,14 +8,17 @@ const router = express.Router();
 
 router.route('/all').get(blogControllers.getAllBlogs);
 router
-  .route('/newBlog')
+  .route('/')
   .post(verifyToken, upload.single('image'), blogControllers.postBlog);
-router.route('/single/:id').get(blogControllers.getSingleBlog);
+
+router
+  .route('/:id')
+  .get(blogControllers.getSingleBlog)
+  .delete(verifyToken, blogControllers.deleteBlog);
 router
   .route('/update/:id')
   .put(verifyToken, upload.single('image'), blogControllers.updateBlog);
 
-router.route('/delete/:id').delete(verifyToken, blogControllers.deleteBlog);
 
 router.route('/:id/comments').get(commentController.getAllComments);
 router

@@ -5,10 +5,10 @@ import messageControllers from '../controllers/messageController';
 const router = express.Router();
 
 router.route('/all').get(verifyToken, messageControllers.getAllMsg);
-router.route('/newMessage').post(messageControllers.postMsg);
-router.route('/single/:id').get(verifyToken, messageControllers.getMsg);
+router.route('/').post(messageControllers.postMsg);
 router
-  .route('/deleteMessage/:id')
+  .route('/:id')
+  .get(verifyToken, messageControllers.getMsg)
   .delete(verifyToken, messageControllers.deleteMsg);
 
 export default router;

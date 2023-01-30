@@ -6,10 +6,11 @@ import signupControllers from '../controllers/signupController';
 const router = express.Router();
 
 router.route('/all').get(signupControllers.getAllUsers);
-router.route('/newUser').post(signupControllers.postUser);
-router.route('/user/:id').get(signupControllers.getUser);
-router.route('/editUser/:id').put(verifyToken, signupControllers.editUser);
+router.route('/').post(signupControllers.postUser);
 router
-  .route('/deleteUser/:id')
+  .route('/:id')
+  .get(signupControllers.getUser)
+  .put(verifyToken, signupControllers.editUser)
   .delete(verifyToken, signupControllers.deleteUser);
+
 export default router;

@@ -13,7 +13,7 @@ exports.postUser = async (req, res) => {
     const user = await signUp.findOne({ email });
     if (user)
       return res.status(400).json({
-        status:"fail",
+        status: 'fail',
         error: 'Email already taken',
       });
     const salt = await bcrypt.genSalt();
@@ -26,6 +26,7 @@ exports.postUser = async (req, res) => {
     res.status(201).json({
       status: 'success',
       message: 'new user created successfully',
+      data: newuser,
     });
   } catch (error) {
     res.status(400).send(error);
@@ -34,7 +35,11 @@ exports.postUser = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const allUsers = await signUp.find();
-    res.json(allUsers);
+    res.json({
+      statu: 'success',
+      length: allUsers.length,
+      data: allUsers,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -50,7 +55,7 @@ exports.getUser = async (req, res) => {
     }
     res.status(200).json({
       status: 'success',
-      user,
+      data: user,
     });
   } catch (err) {
     console.log(err);
@@ -65,7 +70,6 @@ exports.editUser = async (req, res) => {
     if (!user) {
       res.json({ message: "the user doesn't exist" });
     }
-
     let result;
     let data;
     if (req.body) result = req.body;
@@ -89,7 +93,11 @@ exports.editUser = async (req, res) => {
       new: true,
     });
     updateUser.save();
-    res.json(updateUser);
+    res.json({
+      status:'success',
+      message:"user updated successfully",
+      data:updateUser,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -104,7 +112,7 @@ exports.deleteUser = async (req, res) => {
       res.json({ message: "the user doesn't exist" });
     } else {
       await user.remove();
-      res.status(200).json({ message: 'user deleted successfully' });
+      res.status(204).json({ message: 'user deleted successfully' });
     }
   } catch (err) {
     console.log(err);
@@ -130,7 +138,7 @@ exports.login = async (req, res) => {
       res.status(200).json({
         status: 'success',
         message: "you've logged in",
-        data:token,
+        data: token,
       });
     });
   } catch (err) {

@@ -16,12 +16,12 @@ const app = express();
 app.use(express.json());
 
 // ================== ENDPOINTs ===================//
-app.use('/doc', docrouter);
-app.use('/blog', blogRouter);
-app.use('/message', messageCRouter);
-app.use('/register', signupRouter);
-app.use('/login', signupControllers.login);
-app.use('/logout', signupControllers.logout);
+app.use('/api/v1/docs', docrouter);
+app.use('/api/v1/blogs', blogRouter);
+app.use('/api/v1/messages', messageCRouter);
+app.use('/api/v1/users', signupRouter);
+app.use('/api/v1/login', signupControllers.login);
+app.use('/api/v1/logout', signupControllers.logout);
 app.use('/', (req, res) => {
   res.json({message:'welcome to the home page'})
 })

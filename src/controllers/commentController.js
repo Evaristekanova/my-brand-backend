@@ -23,7 +23,7 @@ exports.postComment = async (req, res) => {
         }
       );
       res.status(201).json({
-        status: 201,
+        status: 'success',
         message: 'comment created successfully',
         comment: newComment,
       });
@@ -35,7 +35,11 @@ exports.postComment = async (req, res) => {
 exports.getAllComments = async (req, res) => {
   try {
     const allComments = await comments.find();
-    res.status(200).json(allComments);
+    res.status(200).json({
+      status:'success',
+      length: allComments.length,
+      data:allComments
+    });
   } catch (err) {
     console.log(err);
   }
@@ -52,7 +56,10 @@ exports.getComment = async (req, res) => {
         message: "the comment doesn't exist",
       });
     } else {
-      res.status(200).json(comment);
+      res.status(200).json({
+        status:"success",
+        data:comment
+      });
     }
   } catch (err) {
     console.log(err);
@@ -74,10 +81,10 @@ exports.deleteComment = async (req, res) => {
       });
     } else {
       comment.remove();
-      res.status(200).json({
+      res.status(204).json({
         status: 'success',
         message: 'message deleted successfully',
-        comment,
+        data:comment,
       });
     }
   } catch (err) {

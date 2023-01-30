@@ -23,7 +23,7 @@ const options = {
     { name: 'Message', description: 'Messages' },
   ],
   paths: {
-    '/users': {
+    '/api/v1/users': {
       post: {
         tags: ['Users'],
         description: 'User registeration',
@@ -57,7 +57,7 @@ const options = {
         },
       },
     },
-    '/users/{id}': {
+    '/api/v1/users/{id}': {
       delete: {
         tags: ['Users'],
         description: 'Delete blog article',
@@ -94,7 +94,7 @@ const options = {
         },
       },
     },
-    '/login': {
+    '/api/v1/login': {
       post: {
         tags: ['Users'],
         description: 'User login',
@@ -127,7 +127,7 @@ const options = {
         },
       },
     },
-    '/users/all': {
+    '/api/v1/users/all': {
       get: {
         tags: ['Users'],
         description: 'list of all users',
@@ -148,7 +148,7 @@ const options = {
         },
       },
     },
-    '/blogs/all': {
+    '/api/v1/blogs/all': {
       get: {
         tags: ['Blog'],
         description: 'Get All Blog Articles',
@@ -164,7 +164,7 @@ const options = {
         },
       },
     },
-    '/blogs/{id}': {
+    '/api/v1/blogs/{id}': {
       get: {
         security: [],
         tags: ['Blog'],
@@ -186,7 +186,7 @@ const options = {
         },
       },
     },
-    '/blogs': {
+    '/api/v1/blogs': {
       post: {
         tags: ['Blog'],
         description: 'Create new blog',
@@ -214,7 +214,7 @@ const options = {
         },
       },
     },
-    '/blogs/update/{id}': {
+    '/api/v1/blogs/update/{id}': {
       put: {
         tags: ['Blog'],
         description: 'Update blog',
@@ -230,7 +230,7 @@ const options = {
             'multipart/form-data': {
               schema: {
                 $ref: '#/components/schemas/Blog',
-              }
+              },
             },
           },
           required: true,
@@ -251,7 +251,7 @@ const options = {
         },
       },
     },
-    '/blogs/{id}': {
+    '/api/v1/blogs/{id}': {
       delete: {
         tags: ['Blog'],
         description: 'Delete blog article',
@@ -288,7 +288,7 @@ const options = {
         },
       },
     },
-    '/blogs/{id}/newcomment': {
+    '/api/v1/blogs/{id}/newcomment': {
       post: {
         tags: ['Blog'],
         description: 'Comment on blog article',
@@ -329,7 +329,7 @@ const options = {
       },
     },
 
-    '/messages': {
+    '/api/v1/messages': {
       post: {
         tags: ['Message'],
         security: [],
@@ -361,7 +361,7 @@ const options = {
         },
       },
     },
-    '/messages/all': {
+    '/api/v1/messages/all': {
       get: {
         tags: ['Message'],
         description: 'Getting all messages',
@@ -379,7 +379,7 @@ const options = {
         },
       },
     },
-    '/messages/{id}': {
+    '/api/v1/messages/{id}': {
       get: {
         tags: ['Message'],
         description: 'Get single message by id',
@@ -401,7 +401,7 @@ const options = {
       },
     },
 
-    '/messages/{id}': {
+    '/api/v1/messages/{id}': {
       delete: {
         tags: ['Message'],
         description: 'delete single blog by id',

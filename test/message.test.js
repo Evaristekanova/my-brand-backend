@@ -17,7 +17,7 @@ describe('send a message', () => {
     msg.save((err, msg) => {
       chai
         .request(app)
-        .post('/message/newMessage')
+        .post('/api/v1/messages')
         .send(msg)
         .end((err, res) => {
           res.should.have.status(201);
@@ -34,9 +34,9 @@ describe('GET all messages', () => {
   it('it should GET all the messages', (done) => {
     chai
       .request(app)
-      .get('/message/all')
+      .get('/api/v1/messages/all')
       .end((err, res) => {
-        res.body.should.have.property("message")
+        res.body.should.have.property('message');
         done();
       });
   });

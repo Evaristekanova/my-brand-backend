@@ -25,7 +25,11 @@ exports.postMsg = async (req, res) => {
 exports.getAllMsg = async (req, res) => {
   try {
     const allMsg = await message.find();
-    res.status(200).json(allMsg);
+    res.status(200).json({
+      status:'success',
+      length:allMsg.length,
+      data:allMsg
+    });
   } catch (err) {
     console.log(err);
   }
@@ -42,7 +46,10 @@ exports.getMsg = async (req, res) => {
         message: "the message doesn't exist",
       });
     } else {
-      res.status(200).json(msg);
+      res.status(200).json({
+        status:'success',
+        data:msg
+      });
     }
   } catch (err) {
     console.log(err);
@@ -68,7 +75,7 @@ exports.deleteMsg = async (req, res) => {
       res.status(200).json({
         status: 'success',
         message: 'message deleted successfully.',
-        dltMsg,
+        data:dltMsg,
       });
     }
   } catch (err) {

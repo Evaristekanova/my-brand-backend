@@ -1,7 +1,6 @@
 import cloudinary from 'cloudinary';
 import status from 'statuses';
 import blogPost from '../models/blogs';
-
 import uploads from '../store/cloudinary';
 
 const jwt = require('jsonwebtoken');
@@ -9,13 +8,6 @@ const jwt = require('jsonwebtoken');
 exports.postBlog = async (req, res) => {
   try {
     const { SECRET_KEY } = process.env;
-    // console.log(req.user, 'from blogController');
-    // jwt.verify(req.token, SECRET_KEY, (err, authData) => {
-    //   if (err) {
-    //     return res.status(403).json({message:"mismatch of tokens"});
-    //   }
-    // });
-    // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
     const { title, shortDescription, fullDescription } = req.body;
     if (!title || !shortDescription || !fullDescription || !result) {
@@ -34,7 +26,7 @@ exports.postBlog = async (req, res) => {
       res.status(201).json({
         status: 'success',
         messag: 'blog created successfully',
-        newBlog,
+        dats:newBlog,
       });
     }
   } catch (err) {
@@ -46,6 +38,7 @@ exports.getAllBlogs = async (req, res) => {
     const allBlogs = await blogPost.find().populate('comments');
     res.status(200).json({
       status: "success",
+      length:allBlogs.length,
       data:allBlogs
     });
   } catch (err) {
@@ -88,10 +81,10 @@ exports.deleteBlog = async (req, res) => {
       await cloudinary.uploader.destroy(blog.cloudinary_id);
       await blog.remove();
     }
-    res.status(400).json({
+    res.status(204).json({
       status: 'success',
       messag: 'blog deleted.',
-      blog,
+      data:blog,
     });
   } catch (err) {
     console.log(err);
@@ -108,6 +101,7 @@ exports.updateBlog = async (req, res) => {
       res.status(400).json({
         status: 'bad request',
         message: "the blog doesn't exist",
+        data:blog
       });
     } else {
       // Delete image from cloudinary
@@ -128,10 +122,10 @@ exports.updateBlog = async (req, res) => {
       blog = await blogPost.findByIdAndUpdate(req.params.id, data, {
         new: true,
       });
-      res.status(201).json({
+      res.status(200).json({
         message: 'blog updated successfully',
         status: 'success',
-        blog,
+        data:blog,
       });
     }
   } catch (err) {

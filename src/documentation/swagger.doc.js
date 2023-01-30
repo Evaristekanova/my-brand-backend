@@ -23,7 +23,7 @@ const options = {
     { name: 'Message', description: 'Messages' },
   ],
   paths: {
-    '/register/newUser': {
+    '/users': {
       post: {
         tags: ['Users'],
         description: 'User registeration',
@@ -57,7 +57,7 @@ const options = {
         },
       },
     },
-    '/deleteUser/{id}': {
+    '/users/{id}': {
       delete: {
         tags: ['Users'],
         description: 'Delete blog article',
@@ -127,7 +127,7 @@ const options = {
         },
       },
     },
-    '/register/all': {
+    '/users/all': {
       get: {
         tags: ['Users'],
         description: 'list of all users',
@@ -148,7 +148,7 @@ const options = {
         },
       },
     },
-    '/blog/all': {
+    '/blogs/all': {
       get: {
         tags: ['Blog'],
         description: 'Get All Blog Articles',
@@ -164,7 +164,7 @@ const options = {
         },
       },
     },
-    '/blog/single/{id}': {
+    '/blogs/{id}': {
       get: {
         security: [],
         tags: ['Blog'],
@@ -186,7 +186,7 @@ const options = {
         },
       },
     },
-    '/blog/newBlog': {
+    '/blogs': {
       post: {
         tags: ['Blog'],
         description: 'Create new blog',
@@ -214,7 +214,7 @@ const options = {
         },
       },
     },
-    '/blog/update/{id}': {
+    '/blogs/update/{id}': {
       put: {
         tags: ['Blog'],
         description: 'Update blog',
@@ -251,7 +251,7 @@ const options = {
         },
       },
     },
-    '/blog/delete/{id}': {
+    '/blogs/{id}': {
       delete: {
         tags: ['Blog'],
         description: 'Delete blog article',
@@ -288,7 +288,7 @@ const options = {
         },
       },
     },
-    '/blog/{id}/newcomment': {
+    '/blogs/{id}/newcomment': {
       post: {
         tags: ['Blog'],
         description: 'Comment on blog article',
@@ -329,7 +329,7 @@ const options = {
       },
     },
 
-    '/message/newMessage': {
+    '/messages': {
       post: {
         tags: ['Message'],
         security: [],
@@ -361,7 +361,7 @@ const options = {
         },
       },
     },
-    '/message/all': {
+    '/messages/all': {
       get: {
         tags: ['Message'],
         description: 'Getting all messages',
@@ -379,7 +379,7 @@ const options = {
         },
       },
     },
-    '/message/single/{id}': {
+    '/messages/{id}': {
       get: {
         tags: ['Message'],
         description: 'Get single message by id',
@@ -401,7 +401,7 @@ const options = {
       },
     },
 
-    '/message/deleteMessage/{id}': {
+    '/messages/{id}': {
       delete: {
         tags: ['Message'],
         description: 'delete single blog by id',

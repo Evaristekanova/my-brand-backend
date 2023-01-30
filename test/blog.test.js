@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 
 describe('GET all Blogs', () => {
   it('should return a list of users', async () => {
-    const res = await chai.request(app).get('/blog/all');
+    const res = await chai.request(app).get('/api/v1/blogs/all');
     res.should.have.status(200);
     res.body.should.have.property('status');
     res.body.should.have.property('data');
@@ -19,7 +19,7 @@ describe('GET a single blog', () => {
   it('should return a list of users', async () => {
     const res = await chai
       .request(app)
-      .get('/blog/single/63bf9f12cd179d4168d1a63d');
+      .get('/api/v1/blogs/63bf9f12cd179d4168d1a63d');
     res.should.have.status(200);
     res.body.should.have.property('status');
     res.body.should.have.property('data');

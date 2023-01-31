@@ -11,7 +11,7 @@ exports.postBlog = async (req, res) => {
     const result = await cloudinary.uploader.upload(req.file.path);
     const { title, shortDescription, fullDescription } = req.body;
     if (!title || !shortDescription || !fullDescription || !result) {
-      res.json({ message: 'all fields are required' });
+      return res.json({ message: 'all fields are required' });
     }
     // Create new user
     else {
@@ -25,8 +25,8 @@ exports.postBlog = async (req, res) => {
       const newBlog = await blogPost.create(user);
       res.status(201).json({
         status: 'success',
-        messag: 'blog created successfully',
-        dats:newBlog,
+        message: 'blog created successfully',
+        data:newBlog,
       });
     }
   } catch (err) {
@@ -48,14 +48,15 @@ exports.getAllBlogs = async (req, res) => {
 
 exports.getSingleBlog = async (req, res) => {
   try {
+    if (!req.params.id) return res.status(400).json({ message: 'provide id' });
     if (req.params.id.length != 24) {
-      res.json({ message: 'incorrect id' });
+      return res.json({ message: 'incorrect id' });
     }
     const blog = await blogPost
       .findOne({ _id: req.params.id })
       .populate('comments');
     if (!blog) {
-      res.status(404).json({
+      return res.status(404).json({
         status: 'fail',
         message: "the blog doesn't exist",
       });
@@ -71,12 +72,13 @@ exports.getSingleBlog = async (req, res) => {
 };
 exports.deleteBlog = async (req, res) => {
   try {
+    if(!req.params.id) return res.status(400).json({message:"provide id"})
     if (req.params.id.length != 24) {
-      res.json({ message: 'incorrect id' });
+      return res.status(204).json({ message: 'incorrect id' });
     }
     const blog = await blogPost.findById(req.params.id);
     if (!blog) {
-      res.json({ message: "the blog doesn't exist" });
+      return res.json({ message: "the blog doesn't exist" });
     } else {
       await cloudinary.uploader.destroy(blog.cloudinary_id);
       await blog.remove();
@@ -93,12 +95,15 @@ exports.deleteBlog = async (req, res) => {
 };
 exports.updateBlog = async (req, res) => {
   try {
+    if (!req.params.id){
+      return res.status(400).json({ message: 'provide id' });
+    }
     if (req.params.id.length != 24) {
-      res.json({ message: 'incorrect id' });
+      return res.status(400).json({ message: 'incorrect id' });
     }
     let blog = await blogPost.findById(req.params.id);
     if (!blog) {
-      res.status(400).json({
+      return res.status(400).json({
         status: 'bad request',
         message: "the blog doesn't exist",
         data:blog
@@ -123,8 +128,8 @@ exports.updateBlog = async (req, res) => {
         new: true,
       });
       res.status(200).json({
-        message: 'blog updated successfully',
         status: 'success',
+        message: 'blog updated successfully',
         data:blog,
       });
     }

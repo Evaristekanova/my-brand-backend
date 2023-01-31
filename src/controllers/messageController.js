@@ -3,8 +3,8 @@ import message from '../models/messages';
 exports.postMsg = async (req, res) => {
   try {
     const { firstName, secondName, email, messages } = req.body;
-    if (!firstName || !secondName || !email || !message) {
-      res.json({ message: 'all fields are required' });
+    if (!firstName || !secondName || !email || !messages) {
+      res.status(204).json({ message: 'all fields are required' });
     } else {
       const newMsg = await message.create({
         firstName,
@@ -26,9 +26,9 @@ exports.getAllMsg = async (req, res) => {
   try {
     const allMsg = await message.find();
     res.status(200).json({
-      status:'success',
-      length:allMsg.length,
-      data:allMsg
+      status: 'success',
+      length: allMsg.length,
+      data: allMsg,
     });
   } catch (err) {
     console.log(err);
@@ -36,19 +36,20 @@ exports.getAllMsg = async (req, res) => {
 };
 exports.getMsg = async (req, res) => {
   try {
+    if (!req.params.id) return res.status(400).json({ message: 'provide id' });
     if (req.params.id.length != 24) {
-      res.json({ message: 'incorrect id' });
+      res.status(404).json({ message: 'incorrect id' });
     }
     const msg = await message.findById(req.params.id);
     if (!msg) {
-      res.status(404).json({
+      return res.status(404).json({
         status: 'message not found',
         message: "the message doesn't exist",
       });
     } else {
       res.status(200).json({
-        status:'success',
-        data:msg
+        status: 'success',
+        data: msg,
       });
     }
   } catch (err) {
@@ -57,15 +58,16 @@ exports.getMsg = async (req, res) => {
 };
 exports.deleteMsg = async (req, res) => {
   try {
+    if (!req.params.id) return res.status(400).json({ message: 'provide id' });
     if (req.params.id.length != 24) {
-      res.status(400).json({
+      return res.status(400).json({
         status: 'fail',
         message: 'incorrect id',
       });
     }
     const msg = await message.findById(req.params.id);
     if (!msg) {
-      res.status(404).json({
+      return res.status(404).json({
         status: 'message not found',
         message: "the message doesn't exist",
       });
@@ -75,7 +77,7 @@ exports.deleteMsg = async (req, res) => {
       res.status(200).json({
         status: 'success',
         message: 'message deleted successfully.',
-        data:dltMsg,
+        data: dltMsg,
       });
     }
   } catch (err) {

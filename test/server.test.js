@@ -1,22 +1,27 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUI from 'swagger-ui-express';
-import blogRouter from './routes/blogRoutes';
-import signupRouter from './routes/signupRoutes';
-import messageCRouter from './routes/messageRoutes';
-import signupControllers from './controllers/signupController';
-import commentRouter from './controllers/commentController';
-import connection from './connection/connection';
-// import options from './documentation/register';
-import { docrouter } from './documentation/swagger.doc';
-// import swaggerDocumentation from '../helper/documentation.js';
+import blogRouter from '../src/routes/blogRoutes';
+import signupRouter from '../src/routes/signupRoutes';
+import messageCRouter from '../src/routes/messageRoutes';
+import signupControllers from '../src/controllers/signupController';
+import commentRouter from '../src/controllers/commentController';
+import mongoose from 'mongoose';
+
+dotenv.config();
+const { TEST_CONNECTION } = process.env;
+
+mongoose.set('strictQuery', true);
+const connection = mongoose
+  .connect(TEST_CONNECTION, {
+    useNewUrlParser: true,
+  })
+  .then(() => console.log('connected'))
+  .catch((err) => console.log(err));
 dotenv.config();
 const app = express();
 app.use(express.json());
 
 // ================== ENDPOINTs ===================//
-app.use('/api/v1/docs', docrouter);
 app.use('/api/v1/blogs', blogRouter);
 app.use('/api/v1/messages', messageCRouter);
 app.use('/api/v1/users', signupRouter);

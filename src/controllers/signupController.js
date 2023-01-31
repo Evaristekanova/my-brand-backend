@@ -35,8 +35,8 @@ exports.postUser = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const allUsers = await signUp.find();
-    res.json({
-      statu: 'success',
+    res.status(200).json({
+      status: 'success',
       length: allUsers.length,
       data: allUsers,
     });
@@ -46,6 +46,7 @@ exports.getAllUsers = async (req, res) => {
 };
 exports.getUser = async (req, res) => {
   try {
+    if (!req.params.id) return res.status(400).json({ message: 'provide id' });
     if (req.params.id.length != 24) {
       res.json({ message: 'incorrect id' });
     }
@@ -63,6 +64,7 @@ exports.getUser = async (req, res) => {
 };
 exports.editUser = async (req, res) => {
   try {
+    if (!req.params.id) return res.status(400).json({ message: 'provide id' });
     if (req.params.id.length != 24) {
       res.json({ message: 'incorrect id' });
     }
@@ -94,9 +96,9 @@ exports.editUser = async (req, res) => {
     });
     updateUser.save();
     res.json({
-      status:'success',
-      message:"user updated successfully",
-      data:updateUser,
+      status: 'success',
+      message: 'user updated successfully',
+      data: updateUser,
     });
   } catch (err) {
     console.log(err);
@@ -104,15 +106,19 @@ exports.editUser = async (req, res) => {
 };
 exports.deleteUser = async (req, res) => {
   try {
+    if (!req.params.id) return res.status(400).json({ message: 'provide id' });
     if (req.params.id.length != 24) {
-      res.json({ message: 'incorrect id' });
+      res.status(404).json({ message: 'incorrect id' });
     }
     const user = await signUp.findById(req.params.id);
     if (!user) {
-      res.json({ message: "the user doesn't exist" });
+      res.status(404).json({ message: "the user doesn't exist" });
     } else {
       await user.remove();
-      res.status(204).json({ message: 'user deleted successfully' });
+      res.status(204).json({
+        status: 'success',
+        message: 'user deleted successfully',
+      });
     }
   } catch (err) {
     console.log(err);

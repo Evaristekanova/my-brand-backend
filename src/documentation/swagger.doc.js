@@ -6,10 +6,10 @@ export const docrouter = Router();
 const options = {
   openapi: '3.0.1',
   info: {
-    title: 'My Brand',
+    title: 'Evariste Brand',
     version: '1.0.0',
     description:
-      'this the list of Evariste brand API documentation created in node js.',
+      'this the list of Evariste\'s brand API documentation created in node js.',
   },
   host: 'http://localhost:8000',
   security: [
@@ -509,5 +509,3 @@ const options = {
 };
 
 docrouter.use('/', serve, setup(options));
-
-// export default docrouter;

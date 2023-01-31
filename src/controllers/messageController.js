@@ -42,7 +42,7 @@ exports.getMsg = async (req, res) => {
     }
     const msg = await message.findById(req.params.id);
     if (!msg) {
-      res.status(404).json({
+      return res.status(404).json({
         status: 'message not found',
         message: "the message doesn't exist",
       });
@@ -60,14 +60,14 @@ exports.deleteMsg = async (req, res) => {
   try {
     if (!req.params.id) return res.status(400).json({ message: 'provide id' });
     if (req.params.id.length != 24) {
-      res.status(400).json({
+      return res.status(400).json({
         status: 'fail',
         message: 'incorrect id',
       });
     }
     const msg = await message.findById(req.params.id);
     if (!msg) {
-      res.status(404).json({
+      return res.status(404).json({
         status: 'message not found',
         message: "the message doesn't exist",
       });

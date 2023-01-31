@@ -127,7 +127,7 @@
     "build": "babel src -d dist",
     "start": "node dist/server.js",
     "dev": "npm run build && nodemon --exec babel-node src/server.js",
-    "test": "NODE_ENV=test nyc --reporter=text --reporter=html --reporter=json-summary mocha --recursive --exit --timeout 120000 --require @babel/register test/*.js",
+    "test": "nyc --reporter=text --reporter=html --reporter=json-summary mocha --recursive --exit --timeout 120000 --require @babel/register test/*.js",
     "coverage": "nyc --reporter=html --report-dir=caverage/ npm run test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"

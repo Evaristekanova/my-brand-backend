@@ -29,19 +29,19 @@ exports.postComment = async (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    return res.status(403).json(err);
   }
 };
 exports.getAllComments = async (req, res) => {
   try {
     const allComments = await comments.find();
     res.status(200).json({
-      status:'success',
+      status: 'success',
       length: allComments.length,
-      data:allComments
+      data: allComments,
     });
   } catch (err) {
-    console.log(err);
+    return res.status(403).json(err);
   }
 };
 // exports.getComment = async (req, res) => {

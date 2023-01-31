@@ -16,7 +16,7 @@ router
   .get(blogControllers.getSingleBlog)
   .delete(verifyToken, blogControllers.deleteBlog);
 router
-  .route('/update/:id')
+  .route('/update/?:id')
   .put(verifyToken, upload.single('image'), blogControllers.updateBlog);
 
 

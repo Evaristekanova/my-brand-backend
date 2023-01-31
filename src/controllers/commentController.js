@@ -8,7 +8,7 @@ exports.postComment = async (req, res) => {
     const { user } = req.user;
     const userId = user._id;
     if (!commentContent || !blogId) {
-      res.json({ message: 'all fields are required' });
+      return res.status(204).json({ message: 'all fields are required' });
     } else {
       const newComment = await comments.create({
         commentContent,
@@ -44,50 +44,50 @@ exports.getAllComments = async (req, res) => {
     console.log(err);
   }
 };
-exports.getComment = async (req, res) => {
-  try {
-    if (req.params.id.length != 24) {
-      res.json({ message: 'incorrect id' });
-    }
-    const comment = await comments.findById(req.params.id);
-    if (!comment) {
-      res.status(404).json({
-        status: 'comment not found',
-        message: "the comment doesn't exist",
-      });
-    } else {
-      res.status(200).json({
-        status:"success",
-        data:comment
-      });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-exports.deleteComment = async (req, res) => {
-  try {
-    if (req.params.id.length != 24) {
-      res.status(404).json({
-        status: 'invalid id',
-        message: 'incorrect id',
-      });
-    }
-    const comment = await comments.findById(req.params.id);
-    if (!comment) {
-      res.status(404).json({
-        status: 'comment not found',
-        message: "the comment doesn't exist",
-      });
-    } else {
-      comment.remove();
-      res.status(204).json({
-        status: 'success',
-        message: 'message deleted successfully',
-        data:comment,
-      });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
+// exports.getComment = async (req, res) => {
+//   try {
+//     if (req.params.id.length != 24) {
+//       res.json({ message: 'incorrect id' });
+//     }
+//     const comment = await comments.findById(req.params.id);
+//     if (!comment) {
+//       res.status(404).json({
+//         status: 'comment not found',
+//         message: "the comment doesn't exist",
+//       });
+//     } else {
+//       res.status(200).json({
+//         status:"success",
+//         data:comment
+//       });
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// exports.deleteComment = async (req, res) => {
+//   try {
+//     if (req.params.id.length != 24) {
+//       res.status(404).json({
+//         status: 'invalid id',
+//         message: 'incorrect id',
+//       });
+//     }
+//     const comment = await comments.findById(req.params.id);
+//     if (!comment) {
+//       res.status(404).json({
+//         status: 'comment not found',
+//         message: "the comment doesn't exist",
+//       });
+//     } else {
+//       comment.remove();
+//       res.status(204).json({
+//         status: 'success',
+//         message: 'message deleted successfully',
+//         data:comment,
+//       });
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };

@@ -1,4 +1,4 @@
-## Capstone-backend
+## Capstone-backend ![check-code-coverage](https://img.shields.io/badge/code--coverage-70.43%25-yellow)
 # Description
 this is backend for my capstone project, this will allow visitors to reach me and it contain both APIs endpoint that will allow CRUD operations
 

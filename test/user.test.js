@@ -192,4 +192,15 @@ describe('delete a user', () => {
         done();
       });
   });
+
+    it('should delete a user on /api/v1/users/<id> DELETE', (done) => {
+    chai
+      .request(app)
+      .delete(`/api/v1/users/${userID}`)
+      .set('Authorization', `bearer ${token}`)
+      .end((err, res) => {
+        res.body.should.be.a('object');
+        done();
+      });
+  });
 });

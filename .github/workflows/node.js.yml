@@ -13,6 +13,9 @@ env:
   TEST_CONNECTION: ${{secrets.TEST_CONNECTION}}
   SECRET_KEY: ${{secrets.SECRET_KEY}}
   PORT: ${{secrets.PORT}}
+  CLOUDINARY_USERNAME: ${{secrets.CLOUDINARY_USERNAME}}
+  CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
+  CLOUDINARY_API_SECRET: ${{secrets.CLOUDINARY_API_SECRET}}
 jobs:
   build:
     runs-on: ubuntu-latest

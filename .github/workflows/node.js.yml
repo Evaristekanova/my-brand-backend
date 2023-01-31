@@ -10,8 +10,9 @@ on:
     branches: ['main']
 
 env:
-  TEST_CONNECTION: ${{process.env.TEST_CONNECTION}}
-  SECRET_KEY: ${{process.env.SECRET_KEY}} 
+  TEST_CONNECTION: ${{secrets.TEST_CONNECTION}}
+  SECRET_KEY: ${{secrets.SECRET_KEY}}
+  PORT: ${{secrets.PORT}}
 jobs:
   build:
     runs-on: ubuntu-latest

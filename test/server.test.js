@@ -26,7 +26,7 @@ app.use('/api/v1/blogs', blogRouter);
 app.use('/api/v1/messages', messageCRouter);
 app.use('/api/v1/users', signupRouter);
 app.use('/api/v1/login', signupControllers.login);
-app.use('/api/v1/logout', signupControllers.logout);
+// app.use('/api/v1/logout', signupControllers.logout);
 // app.use('/', (req, res) => {
 //   res.json({message:'welcome to the home page'})
 // })

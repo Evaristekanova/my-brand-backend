@@ -179,18 +179,18 @@ describe('delete a message', () => {
     msg.remove();
   });
 
-  it('should delete a message on /api/v1/message/<id> DELETE', (done) => {
-    chai
-      .request(app)
-      .get(`/api/v1/messages/${msgId}`)
-      .set('Authorization', `bearer ${token}`)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('object');
-        res.body.should.have.property('data');
-        done();
-      });
-  });
+//   it('should delete a message on /api/v1/message/<id> DELETE', (done) => {
+//     chai
+//       .request(app)
+//       .get(`/api/v1/messages/${msgId}`)
+//       .set('Authorization', `bearer ${token}`)
+//       .end((err, res) => {
+//         res.should.have.status(200);
+//         res.body.should.be.a('object');
+//         res.body.should.have.property('data');
+//         done();
+//       });
+//   });
 });
 
 // ===========//

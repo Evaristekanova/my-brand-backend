@@ -48,11 +48,11 @@ exports.getUser = async (req, res) => {
   try {
     if (!req.params.id) return res.status(400).json({ message: 'provide id' });
     if (req.params.id.length != 24) {
-      res.json({ message: 'incorrect id' });
+      return res.status(400).json({ message: 'incorrect id' });
     }
     const user = await signUp.findById(req.params.id);
     if (!user) {
-      res.json({ message: "the user doesn't exist" });
+      return res.status(404).json({ message: "the user doesn't exist" });
     }
     res.status(200).json({
       status: 'success',
@@ -66,11 +66,11 @@ exports.editUser = async (req, res) => {
   try {
     if (!req.params.id) return res.status(400).json({ message: 'provide id' });
     if (req.params.id.length != 24) {
-      res.json({ message: 'incorrect id' });
+      return res.status(400).json({ message: 'incorrect id' });
     }
     const user = await signUp.findById(req.params.id);
     if (!user) {
-      res.json({ message: "the user doesn't exist" });
+      return res.status(404).json({ message: "the user doesn't exist" });
     }
     let result;
     let data;
@@ -95,7 +95,7 @@ exports.editUser = async (req, res) => {
       new: true,
     });
     updateUser.save();
-    res.json({
+    res.status(200).json({
       status: 'success',
       message: 'user updated successfully',
       data: updateUser,
@@ -108,11 +108,11 @@ exports.deleteUser = async (req, res) => {
   try {
     if (!req.params.id) return res.status(400).json({ message: 'provide id' });
     if (req.params.id.length != 24) {
-      res.status(404).json({ message: 'incorrect id' });
+      return res.status(400).json({ message: 'incorrect id' });
     }
     const user = await signUp.findById(req.params.id);
     if (!user) {
-      res.status(404).json({ message: "the user doesn't exist" });
+      return res.status(404).json({ message: "the user doesn't exist" });
     } else {
       await user.remove();
       res.status(204).json({
@@ -152,12 +152,12 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.logout = async (req, res) => {
-  try {
-    console.log(req.token);
-    res.json({ message: 'user loged out' });
-    user.token = undefined;
-  } catch (error) {
-    console.log(error);
-  }
-};
+// exports.logout = async (req, res) => {
+//   try {
+//     console.log(req.token);
+//     res.json({ message: 'user loged out' });
+//     user.token = undefined;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };

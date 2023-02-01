@@ -38,7 +38,7 @@ exports.getMsg = async (req, res) => {
   try {
     if (!req.params.id) return res.status(400).json({ message: 'provide id' });
     if (req.params.id.length != 24) {
-      res.status(404).json({ message: 'incorrect id' });
+      return res.status(404).json({ message: 'incorrect id' });
     }
     const msg = await message.findById(req.params.id);
     if (!msg) {

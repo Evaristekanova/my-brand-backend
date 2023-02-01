@@ -117,8 +117,8 @@ describe('Accessing unknown route', () => {
   });
 });
 
+let userID;
 describe('get single user', () => {
-  let userID;
   let token;
   before(async () => {
     const response = await chai.request(app).post('/api/v1/login').send({
@@ -132,7 +132,7 @@ describe('get single user', () => {
     const user = new signUp({
       name: 'Jonas',
       email: 'j2@mail.com',
-      password:'1234567'
+      password: '1234567',
     });
 
     user.save((err, userr) => {
@@ -141,6 +141,61 @@ describe('get single user', () => {
     });
   });
 
+it('should update a single user on /api/v1/users/<id> GET', (done) => {
+  chai
+    .request(app)
+    .put(`/api/v1/users/${userID}`)
+    .set('Authorization', `bearer ${token}`)
+    .send({name:"Kalou"})
+    .end((err, res) => {
+      res.should.have.status(200);
+      res.body.should.be.a('object');
+      res.body.should.have.property('status', 'success');
+      res.body.should.have.property('data');
+      done();
+    });
+});
+
+it('should update a single user with no permission on /api/v1/users/<id> GET', (done) => {
+  chai
+    .request(app)
+    .put(`/api/v1/users/${userID}`)
+    .send({ name: 'Kalou' })
+    .end((err, res) => {
+      res.should.have.status(403);
+      res.body.should.be.a('object');
+      res.body.should.have.property('message');
+      done();
+    });
+});
+
+it('should update a user which does not exist on /api/v1/users/<id> GET', (done) => {
+  chai
+    .request(app)
+    .put(`/api/v1/users/63d8d2485cabb22a2f2b6c30`)
+    .set('Authorization', `bearer ${token}`)
+    .send({ name: 'Kalou' })
+    .end((err, res) => {
+      res.should.have.status(404);
+      res.body.should.be.a('object');
+      res.body.should.have.property('message');
+      done();
+    });
+});
+
+it('should update a user with invalid id on /api/v1/users/<id> PUT', (done) => {
+  chai
+    .request(app)
+    .put(`/api/v1/users/63d8d2485cabb22a2f2b6c`)
+    .set('Authorization', `bearer ${token}`)
+    .send({ name: 'Kalou' })
+    .end((err, res) => {
+      res.should.have.status(400);
+      res.body.should.be.a('object');
+      res.body.should.have.property('message');
+      done();
+    });
+});
   it('should get a single user on /api/v1/users/<id> GET', (done) => {
     chai
       .request(app)
@@ -154,8 +209,33 @@ describe('get single user', () => {
         done();
       });
   });
-});
 
+  it('should get a single user which does not exist on /api/v1/users/<id> GET', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/users/63d8d2485cabb22a2f2b6c30`)
+      .set('Authorization', `bearer ${token}`)
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        done();
+      });
+  });
+
+  it('should get a single user which does not exist on /api/v1/users/<id> GET', (done) => {
+    chai
+      .request(app)
+      .get(`/api/v1/users/63d8d2485cabb22a2f2b6c`)
+      .set('Authorization', `bearer ${token}`)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        done();
+      });
+  });
+});
 // ============================================================//
 describe('delete a user', () => {
   let userID;
@@ -179,17 +259,55 @@ describe('delete a user', () => {
       userID = userr._id;
       done();
     });
-    user.remove()
+    user.remove();
   });
+
+  // it('should delete a user with no permission on /api/v1/users/<id> DELETE', (done) => {
+  //   chai
+  //     .request(app)
+  //     .delete(`/api/v1/users/${userID}`)
+  //     .end((err, res) => {
+  //       res.should.have.status(403)
+  //       res.body.should.have.property('message')
+  //       res.body.should.be.a('object');
+  //       done();
+  //     });
+  // });
 
   it('should delete a user on /api/v1/users/<id> DELETE', (done) => {
     chai
       .request(app)
-      .get(`/api/v1/users/${userID}`)
+      .delete(`/api/v1/users/${userID}`)
       .set('Authorization', `bearer ${token}`)
       .end((err, res) => {
         res.body.should.be.a('object');
         done();
       });
   });
+
+  it('should delete a user which does not exist on /api/v1/users/<id> DELETE', (done) => {
+    chai
+      .request(app)
+      .delete(`/api/v1/users/63d8d2485cabb22a2f2b6c30`)
+      .set('Authorization', `bearer ${token}`)
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.be.a('object');
+        res.body.should.have.property('message')
+        done();
+      });
+  });
+
+   it('should delete a user with invalid id on /api/v1/users/<id> DELETE', (done) => {
+     chai
+       .request(app)
+       .delete(`/api/v1/users/63d8d2485cabb22a2f2b6c`)
+       .set('Authorization', `bearer ${token}`)
+       .end((err, res) => {
+         res.should.have.status(400);
+         res.body.should.be.a('object');
+         res.body.should.have.property('message');
+         done();
+       });
+   });
 });

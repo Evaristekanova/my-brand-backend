@@ -6,11 +6,16 @@ this is backend for my capstone project, this will allow visitors to reach me an
 -Package manage: NPM
 -Environment: Nodejs
 -Database: mongobd
+-Documentation: swagger documentation
+-Test: mocha testing
 # Requirement & installation steps
 -postman
-you nee the following to be able to run the application Node as javascript runtime environment Postmon for testing API endpoints VS code for editing and running the app MongoDB for Database
+you need the following to be able to run the application Node as javascript runtime environment Postmon for testing API endpoints VS code for editing and running the app MongoDB for Database
 # installation
 from your computer, open terminal
-Clone project Run git clone https://github.com/oliviertech212/Capstone-backend.git to clone the repository
+-Clone project Run git clone https://github.com/oliviertech212/Capstone-backend.git to clone the repository
+-Run npm install in your terminal
+-Do npm run dev to start the server
+-Do npm run test to run test and see coveragepercentage
 # Author
 Evariste

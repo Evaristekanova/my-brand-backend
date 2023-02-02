@@ -1,8 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import nodemon from 'nodemon';
 import signUp from '../models/signUp';
-
 require('dotenv').config();
 
 exports.postUser = async (req, res) => {

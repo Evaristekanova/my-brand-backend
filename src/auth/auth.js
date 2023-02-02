@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
-async function verifyToken(req, res, next) {
+exports.verifyToken = async(req, res, next)=> {
   const bearerHeader = req.headers.authorization;
   if (typeof bearerHeader === 'undefined') {
     // Forbidden
@@ -22,4 +22,9 @@ async function verifyToken(req, res, next) {
     next();
   }
 }
-export default verifyToken;
+exports.Admin = async(req, res, next) => {
+    if (!req.authuser.isAdmin) {
+        return res.status(403).json({ message: "access denied" })
+    }
+    next()
+}

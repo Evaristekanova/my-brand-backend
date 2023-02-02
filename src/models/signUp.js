@@ -4,9 +4,11 @@ const schema = mongoose.Schema({
   name: { type: String },
   email: { type: String },
   password: { type: String },
-  token: {
+  isAdmin: {
+    type: Boolean,
+  },
+  refreshToken: {
     type: String,
-    required: false,
   },
 });
 const signUp = mongoose.model('Users', schema);

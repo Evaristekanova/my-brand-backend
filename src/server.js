@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors'
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 import blogRouter from './routes/blogRoutes';
@@ -14,17 +15,17 @@ import { docrouter } from './documentation/swagger.doc';
 dotenv.config();
 const app = express();
 app.use(express.json());
-
+app.use(cors())
 // ================== ENDPOINTs ===================//
 app.use('/api/v1/docs', docrouter);
 app.use('/api/v1/blogs', blogRouter);
 app.use('/api/v1/messages', messageCRouter);
 app.use('/api/v1/users', signupRouter);
 app.use('/api/v1/login', signupControllers.login);
-// app.use('/api/v1/logout', signupControllers.logout);
-// app.use('/', (req, res) => {
-//   res.json({message:'welcome to the home page'})
-// })
+app.use('/api/v1/logout', signupControllers.logout);
+app.use('/', (req, res) => {
+  res.json({message:'welcome to the home page'})
+})
 app.use((req, res) => {
   res.status(404).json({
     message: 'the page not found',

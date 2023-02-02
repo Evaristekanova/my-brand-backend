@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import nodemon from 'nodemon';
 import signUp from '../models/signUp';
 
 require('dotenv').config();
@@ -127,37 +128,88 @@ exports.deleteUser = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await signUp.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: 'unknown user' });
-    }
-    const checkPassword = await bcrypt.compare(password, user.password);
-    if (!checkPassword) {
-      return res.status(404).json({ message: 'access dineid' });
-    }
     const { SECRET_KEY } = process.env;
-    jwt.sign({ user }, SECRET_KEY, (err, token) => {
-      req.token = token;
-      req.user = user;
-      user.token = token;
-      res.status(200).json({
-        status: 'success',
-        message: "you've logged in",
-        data: token,
-      });
-    });
-  } catch (err) {
-    res.json(err);
+    const cookie = req.headers?.cookie;
+    let ActiveRefreshToken;
+    if (cookie) {
+      let cookieValues = cookie.split(';');
+      ActiveRefreshToken = cookieValues
+        .find((value) => value.startsWith('refreshToken'))
+        .substring(13);
+    }
+    if (ActiveRefreshToken) {
+      let user = await signUp
+        .findOne({
+          refreshToken: ActiveRefreshToken,
+        })
+        .exec();
+      if (user) {
+        const accessToken = jwt.sign(
+          { _id: user._id, email: user.email, isAdmin: user.isAdmin },
+          SECRET_KEY,
+          { expiresIn: '3600s' }
+        );
+        res.status(200).json({ message: 'welcome', data: accessToken });
+      } else {
+        res.clearCookie('refreshToken');
+        res.sendStatus(403);
+      }
+    } else {
+      //in case the user has been logged out
+      const email = req.body.email;
+      const password = req.body.password;
+      if (!email || !password) {
+        return res.json({ message: 'enter email and password' });
+      }
+      let user = await signUp.findOne({ email }).exec();
+      if (user) {
+        const checkedpassword = await bcrypt.compare(password, user.password);
+        if (checkedpassword) {
+          //generate tokens
+          const accessToken = jwt.sign(
+            { _id: user._id, email: user.email, isAdmin: user.isAdmin },
+            SECRET_KEY,
+            { expiresIn: '3600s' }
+          );
+          const refreshToken = jwt.sign(
+            { _id: user._id, email: user.email },
+            SECRET_KEY,
+            { expiresIn: '10d' }
+          );
+          //store refresh token in cookies
+          res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            sameSite: 'none',
+            maxAge: 24 * 60 * 60 * 2000,
+          });
+          //store refreshToken in databse
+          user.refreshToken = refreshToken;
+          await user.save();
+          res.status(200).json({ message: 'welcome', data: accessToken });
+        }
+      } else {
+        res.json({ message: 'incorrect username and password' });
+      }
+    }
+  } catch (error) {
+    res.status(400).json({ error });
   }
 };
 
-// exports.logout = async (req, res) => {
-//   try {
-//     console.log(req.token);
-//     res.json({ message: 'user loged out' });
-//     user.token = undefined;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+exports.logout = async (req, res) => {
+  const cookie = req.headers?.cookie;
+  if (cookie) {
+    let cookieValues = cookie.split(';');
+    const ActiveRefreshToken = cookieValues
+      .find((value) => value.startsWith('refreshToken'))
+      .substring(13);
+    if (!ActiveRefreshToken) return res.json({ message: 'logged out' });
+    let user = await signUp.findOne({ refreshToken: ActiveRefreshToken }).exec();
+    //delete refresh token in databse
+    user.refreshToken = '';
+    await user.save();
+    res.clearCookie('refreshToken');
+    res.status(200).json({ message: 'you\'ve logged out' });
+    res.end();
+  }
+};

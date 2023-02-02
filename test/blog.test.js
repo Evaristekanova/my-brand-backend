@@ -7,7 +7,7 @@ import app from './server.test';
 
 chai.should();
 chai.use(chaiHttp);
-const { expect, assert } = chai;
+const { assert } = chai;
 
 describe('GET all Blogs', () => {
   it('should return a list of all blogs', async () => {
@@ -87,6 +87,7 @@ describe('All Blogs API EndPoints', () => {
       .send({
         email: 'milokanova@example.com',
         password: '1234567',
+        isAdmin:true
       })
       .end((err, res) => {
         assert.isNull(err, 'Error should be null');
@@ -114,6 +115,7 @@ describe('All Blogs API EndPoints', () => {
         assert.equal(res.status, 201, 'Status code should be 200');
         assert.isObject(res.body, 'Response body should be an Object');
         blogId = res.body.data._id;
+        console.log(blogId);
         done();
       });
   });

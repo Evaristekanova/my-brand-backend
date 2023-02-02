@@ -15,7 +15,15 @@ import { docrouter } from './documentation/swagger.doc';
 dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(cors())
+const corsOpts = {
+  origin: '*',
+
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],
+
+  allowedHeaders: ['Content-Type'],
+};
+
+app.use(cors(corsOpts));
 // ================== ENDPOINTs ===================//
 app.use('/api/v1/docs', docrouter);
 app.use('/api/v1/blogs', blogRouter);

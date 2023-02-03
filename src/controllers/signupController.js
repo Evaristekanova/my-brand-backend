@@ -38,7 +38,7 @@ exports.postUser = async (req, res) => {
       token: accessToken,
       role: newuser.isAdmin,
       status: 'success',
-      data: newuser,
+      user: newuser,
     });
     console.log(newuser.isAdmin);
   } catch (error) {
@@ -191,17 +191,23 @@ exports.login = async (req, res) => {
             { expiresIn: '10d' }
           );
           //store refresh token in cookies
-          res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            sameSite: 'none',
-            maxAge: 24 * 60 * 60 * 2000,
-          });
+          // res.cookie('refreshToken', refreshToken, {
+          //   httpOnly: true,
+          //   sameSite: 'none',
+          //   maxAge: 24 * 60 * 60 * 2000,
+          // });
           //store refreshToken in databse
           user.refreshToken = refreshToken;
-          await user.save();
-          res.status(200).json({ message: 'welcome', data: accessToken });
+          // await user.save();
+          console.log(user);
+          res.status(200).json({
+            message: 'welcome',
+            data: accessToken,
+            user:user
+          });
         }
       } else {
+        console.log(user);
         res.json({ message: 'incorrect username and password' });
       }
     }

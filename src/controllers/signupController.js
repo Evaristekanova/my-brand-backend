@@ -21,12 +21,26 @@ exports.postUser = async (req, res) => {
       name,
       email,
       password,
+      isAdmin: false,
     });
+    const accessToken = jwt.sign(
+      {
+        _id: newuser._id,
+        email: newuser.email,
+        username: newuser.userName,
+        isAdmin: newuser.isAdmin,
+      },
+      process.env.SECRET_KEY,
+      { expiresIn: '3600s' }
+    );
     res.status(201).json({
+      message: 'account successfully created',
+      token: accessToken,
+      role: newuser.isAdmin,
       status: 'success',
-      message: 'new user created successfully',
-      data: newuser,
+      user: newuser,
     });
+    console.log(newuser.isAdmin);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -147,7 +161,9 @@ exports.login = async (req, res) => {
           SECRET_KEY,
           { expiresIn: '3600s' }
         );
-        res.status(200).json({ message: 'welcome', data: accessToken });
+        res
+          .status(200)
+          .json({ message: 'welcome', data: accessToken, role: user.isAdmin });
       } else {
         res.clearCookie('refreshToken');
         res.sendStatus(403);
@@ -175,17 +191,23 @@ exports.login = async (req, res) => {
             { expiresIn: '10d' }
           );
           //store refresh token in cookies
-          res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            sameSite: 'none',
-            maxAge: 24 * 60 * 60 * 2000,
-          });
+          // res.cookie('refreshToken', refreshToken, {
+          //   httpOnly: true,
+          //   sameSite: 'none',
+          //   maxAge: 24 * 60 * 60 * 2000,
+          // });
           //store refreshToken in databse
           user.refreshToken = refreshToken;
-          await user.save();
-          res.status(200).json({ message: 'welcome', data: accessToken });
+          // await user.save();
+          console.log(user);
+          res.status(200).json({
+            message: 'welcome',
+            data: accessToken,
+            user:user
+          });
         }
       } else {
+        console.log(user);
         res.json({ message: 'incorrect username and password' });
       }
     }
@@ -202,12 +224,14 @@ exports.logout = async (req, res) => {
       .find((value) => value.startsWith('refreshToken'))
       .substring(13);
     if (!ActiveRefreshToken) return res.json({ message: 'logged out' });
-    let user = await signUp.findOne({ refreshToken: ActiveRefreshToken }).exec();
+    let user = await signUp
+      .findOne({ refreshToken: ActiveRefreshToken })
+      .exec();
     //delete refresh token in databse
     user.refreshToken = '';
     await user.save();
     res.clearCookie('refreshToken');
-    res.status(200).json({ message: 'you\'ve logged out' });
+    res.status(200).json({ message: "you've logged out" });
     res.end();
   }
 };

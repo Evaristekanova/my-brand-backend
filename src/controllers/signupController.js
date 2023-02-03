@@ -185,21 +185,11 @@ exports.login = async (req, res) => {
             SECRET_KEY,
             { expiresIn: '3600s' }
           );
-          const refreshToken = jwt.sign(
-            { _id: user._id, email: user.email },
-            SECRET_KEY,
-            { expiresIn: '10d' }
-          );
-          //store refresh token in cookies
-          // res.cookie('refreshToken', refreshToken, {
-          //   httpOnly: true,
-          //   sameSite: 'none',
-          //   maxAge: 24 * 60 * 60 * 2000,
-          // });
-          //store refreshToken in databse
-          user.refreshToken = refreshToken;
-          // await user.save();
-          console.log(user);
+          // const refreshToken = jwt.sign(
+          //   { _id: user._id, email: user.email },
+          //   SECRET_KEY,
+          //   { expiresIn: '10d' }
+          // );
           res.status(200).json({
             message: 'welcome',
             data: accessToken,

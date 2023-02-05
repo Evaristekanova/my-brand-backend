@@ -24,7 +24,7 @@ exports.verifyToken = async(req, res, next)=> {
 }
 exports.Admin = async(req, res, next) => {
     if (!req.user.isAdmin) {
-        return res.status(403).json({ message: "access denied" })
+        return res.status(403).json({ message: "access denied, you are not admin" })
     }
     next()
 }

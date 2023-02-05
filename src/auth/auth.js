@@ -23,7 +23,7 @@ exports.verifyToken = async(req, res, next)=> {
   }
 }
 exports.Admin = async(req, res, next) => {
-    if (!req.authuser.isAdmin) {
+    if (!req.user.isAdmin) {
         return res.status(403).json({ message: "access denied" })
     }
     next()

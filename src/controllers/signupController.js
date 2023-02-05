@@ -163,7 +163,7 @@ exports.login = async (req, res) => {
         );
         res
           .status(200)
-          .json({ message: 'welcome', data: accessToken, role: user.isAdmin });
+          .json({ message: 'welcome', data: accessToken, role: user.isAdmin, user:user });
       } else {
         res.clearCookie('refreshToken');
         res.sendStatus(403);

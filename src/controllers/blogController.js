@@ -83,7 +83,7 @@ exports.deleteBlog = async (req, res) => {
       await cloudinary.uploader.destroy(blog.cloudinary_id);
       await blog.remove();
     }
-    res.status(204).json({
+    res.status(200).json({
       status: 'success',
       message: 'blog deleted.',
       data:blog,

@@ -24,7 +24,7 @@ const corsOpts = {
   // allowedOrigin:"*"
 };
 
-app.use(cors());
+app.use(cors(corsOpts));
 // ================== ENDPOINTs ===================//
 app.use('/api/v1/docs', docrouter);
 app.use('/api/v1/blogs', blogRouter);

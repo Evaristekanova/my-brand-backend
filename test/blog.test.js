@@ -1,5 +1,5 @@
 import chaiHttp from 'chai-http';
-import chai from 'chai';
+import chai, { should } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import postBlog from '../src/models/blogs';
@@ -56,7 +56,8 @@ describe('All Blogs API EndPoints', () => {
         .request(app)
         .get('/blog')
         .end((err, res) => {
-          assert.equal(res.status, 404, 'Status code should be 404');
+          // assert.equal(res.status, 404, 'Status code should be 404');
+          res,should.have.status(404);
           done();
         });
     });
@@ -226,7 +227,7 @@ describe('All Blogs API EndPoints', () => {
        .field('title', 'updated')
        .end((err, res) => {
          assert.isNull(err, 'Error should be null');
-         assert.equal(res.status, 400, 'Status code should be 200');
+         assert.equal(res.status, 400, 'Status code should be 400');
          assert.isObject(res.body, 'Response body should be an Object');
          res.body.should.have.property('message');
          done();

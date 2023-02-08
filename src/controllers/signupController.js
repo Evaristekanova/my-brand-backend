@@ -21,7 +21,7 @@ exports.postUser = async (req, res) => {
       name,
       email,
       password,
-      isAdmin: false,
+      isAdmin: true,
     });
     const accessToken = jwt.sign(
       {
@@ -159,7 +159,7 @@ exports.login = async (req, res) => {
         const accessToken = jwt.sign(
           { _id: user._id, email: user.email, isAdmin: user.isAdmin },
           SECRET_KEY,
-          { expiresIn: '3600s' }
+          { expiresIn: '3ds' }
         );
         res
           .status(200)

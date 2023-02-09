@@ -21,7 +21,7 @@ exports.postUser = async (req, res) => {
       name,
       email,
       password,
-      isAdmin: true,
+      isAdmin: false,
     });
     const accessToken = jwt.sign(
       {

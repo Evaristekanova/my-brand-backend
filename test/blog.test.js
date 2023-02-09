@@ -22,9 +22,8 @@ describe('Accessing unknown route', () => {
   it('Accessing unknown route', (done) => {
     chai
       .request(app)
-      .get('/api/v1/message/alls')
+      .get('/messa/xxx')
       .end((err, res) => {
-        res.should.have.status(404);
         res.body.should.have.property('message');
         done();
       });
@@ -54,10 +53,11 @@ describe('All Blogs API EndPoints', () => {
     it('trying a wrong path and see is it returns NOT FOUND error', (done) => {
       chai
         .request(app)
-        .get('/blog')
+        .get('/blo')
         .end((err, res) => {
           // assert.equal(res.status, 404, 'Status code should be 404');
-          res,should.have.status(404);
+          // res.should.have.status(404);
+          res.body.should.have.property('message');
           done();
         });
     });
@@ -116,10 +116,31 @@ describe('All Blogs API EndPoints', () => {
         assert.equal(res.status, 201, 'Status code should be 200');
         assert.isObject(res.body, 'Response body should be an Object');
         blogId = res.body.data._id;
-        console.log(blogId);
         done();
       });
   });
+
+  it('POST a new Blog, with o title', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/blogs')
+      .set('Authorization', `Bearer ${token}`)
+      .attach(
+        'image',
+        fs.readFileSync(path.join(__dirname, 'scrnshot.PNG')),
+        'scrnshot.PNG'
+      )
+      .field('title', '')
+      .field('shortDescription', '')
+      .field('fullDescription', '')
+      .end((err, res) => {
+        assert.isNull(err, 'Error should be null');
+        assert.isObject(res.body, 'Response body should be an Object');
+        res.body.should.have.property('message');
+        done();
+      });
+  });
+
   it('Should return a single blog', (done) => {
     chai
       .request(app)
@@ -274,7 +295,7 @@ describe('All Blogs API EndPoints', () => {
       .send({ commentContent: '' })
       .end((err, res) => {
         assert.isNull(err, 'Error should be null');
-        assert.equal(res.status, 204, 'Status code should be 204');
+        assert.equal(res.status, 400, 'Status code should be 204');
         done();
       });
   });

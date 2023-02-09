@@ -7,7 +7,7 @@ exports.postUser = async (req, res) => {
   try {
     let { name, email, password } = req.body;
     if (!name || !email || !password) {
-      res.status(400).json({ message: 'All field are required' });
+      return res.status(400).json({ message: 'All field are required' });
     }
     const user = await signUp.findOne({ email });
     if (user)
@@ -141,87 +141,32 @@ exports.deleteUser = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { SECRET_KEY } = process.env;
-    const cookie = req.headers?.cookie;
-    let ActiveRefreshToken;
-    if (cookie) {
-      let cookieValues = cookie.split(';');
-      ActiveRefreshToken = cookieValues
-        .find((value) => value.startsWith('refreshToken'))
-        .substring(13);
+    const email = req.body.email;
+    const password = req.body.password;
+    if (!email || !password) {
+      return res.status(204).json({ message: 'enter email and password' });
     }
-    if (ActiveRefreshToken) {
-      let user = await signUp
-        .findOne({
-          refreshToken: ActiveRefreshToken,
-        })
-        .exec();
-      if (user) {
+    let user = await signUp.findOne({ email }).exec();
+    if (user) {
+      const checkedpassword = await bcrypt.compare(password, user.password);
+      if (checkedpassword) {
+        //generate tokens
         const accessToken = jwt.sign(
           { _id: user._id, email: user.email, isAdmin: user.isAdmin },
           SECRET_KEY,
-          { expiresIn: '3ds' }
+          { expiresIn: '3d' }
         );
-        res
-          .status(200)
-          .json({ message: 'welcome', data: accessToken, role: user.isAdmin, user:user });
-      } else {
-        res.clearCookie('refreshToken');
-        res.sendStatus(403);
+        res.status(200).json({
+          message: 'welcome',
+          data: accessToken,
+          user: user,
+        });
       }
     } else {
-      //in case the user has been logged out
-      const email = req.body.email;
-      const password = req.body.password;
-      if (!email || !password) {
-        return res.json({ message: 'enter email and password' });
-      }
-      let user = await signUp.findOne({ email }).exec();
-      if (user) {
-        const checkedpassword = await bcrypt.compare(password, user.password);
-        if (checkedpassword) {
-          //generate tokens
-          const accessToken = jwt.sign(
-            { _id: user._id, email: user.email, isAdmin: user.isAdmin },
-            SECRET_KEY,
-            { expiresIn: '3600s' }
-          );
-          // const refreshToken = jwt.sign(
-          //   { _id: user._id, email: user.email },
-          //   SECRET_KEY,
-          //   { expiresIn: '10d' }
-          // );
-          res.status(200).json({
-            message: 'welcome',
-            data: accessToken,
-            user:user
-          });
-        }
-      } else {
-        console.log(user);
-        res.json({ message: 'incorrect username and password' });
-      }
+      console.log(user);
+      res.status(403).json({ message: 'incorrect username and password' });
     }
   } catch (error) {
-    res.status(400).json({ error });
-  }
-};
-
-exports.logout = async (req, res) => {
-  const cookie = req.headers?.cookie;
-  if (cookie) {
-    let cookieValues = cookie.split(';');
-    const ActiveRefreshToken = cookieValues
-      .find((value) => value.startsWith('refreshToken'))
-      .substring(13);
-    if (!ActiveRefreshToken) return res.json({ message: 'logged out' });
-    let user = await signUp
-      .findOne({ refreshToken: ActiveRefreshToken })
-      .exec();
-    //delete refresh token in databse
-    user.refreshToken = '';
-    await user.save();
-    res.clearCookie('refreshToken');
-    res.status(200).json({ message: "you've logged out" });
-    res.end();
+    console.log(error);
   }
 };

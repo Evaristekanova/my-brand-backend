@@ -5,17 +5,13 @@ import signUp from '../models/signUp';
 
 exports.postComment = async (req, res) => {
   try {
-    console.log('comments');
     const { commentContent } = req.body;
-    console.log(commentContent);
     const blogId = req.params.id;
     const user = req.user;
     const userId = user._id;
     const aUser = await signUp.findOne({ _id: userId });
-    console.log(aUser);
     if (!commentContent || !blogId) {
-      console.log('no');
-      return res.status(200).json({ message: 'this field is required' });
+      return res.status(400).json({ message: 'this field is required' });
     } else {
       const newComment = await comments.create({
         commentContent,
@@ -23,7 +19,6 @@ exports.postComment = async (req, res) => {
         userName: aUser.name,
         user: userId,
       });
-      console.log(newComment);
       await blopPost.updateOne(
         { _id: blogId },
         {

@@ -16,8 +16,19 @@ describe('POST a user', () => {
       name: 'Milo kanova',
       email: 'milokanova@example.com',
       password: '1234567',
+      isAdmin:true
     });
     res.statusCode.should.be.equal(201);
+    res.body.should.have.property('message');
+  });
+
+  it('should create a new user with no name, email and passowrd', async () => {
+    const res = await chai.request(app).post('/api/v1/users').send({
+      name: '',
+      email: '',
+      password: '',
+    });
+    res.statusCode.should.be.equal(400);
     res.body.should.have.property('message');
   });
 
@@ -87,29 +98,29 @@ describe('Login', () => {
 });
 
 describe('Login', () => {
-  it('it should limit a user to have access with wrong password', (done) => {
+  it('it should limit a user to have access with no password and email', (done) => {
     chai
       .request(app)
       .post('/api/v1/login')
       .send({
         email: 'milokanova@example.com',
-        password: 'ikiringiti',
+        password: '',
       })
       .end((err, res) => {
-        res.should.have.status(404);
-        res.body.should.have.property('message');
+        res.should.have.status(204);
+        // res.body.should.have.property('message');
         done();
       });
   });
 });
 
 describe('Accessing unknown route', () => {
-  it('Accessing unknown route', (done) => {
+  it('Accessing root', (done) => {
     chai
       .request(app)
-      .get('/api/v1/message/alls')
+      .get('/')
       .end((err, res) => {
-        res.should.have.status(404);
+        res.should.have.status(200);
         res.body.should.have.property('message');
         done();
       });

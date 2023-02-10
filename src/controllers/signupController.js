@@ -162,9 +162,11 @@ exports.login = async (req, res) => {
           user: user,
         });
       }
+      else {
+      res.status(403).json({ message: 'incorrect username or password' });
+      }
     } else {
-      console.log(user);
-      res.status(403).json({ message: 'incorrect username and password' });
+      res.status(403).json({ message: 'incorrect username or password' });
     }
   } catch (error) {
     console.log(error);

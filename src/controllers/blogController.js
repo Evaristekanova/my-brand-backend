@@ -11,7 +11,7 @@ exports.postBlog = async (req, res) => {
     const result = await cloudinary.uploader.upload(req.file.path);
     const { title, shortDescription, fullDescription } = req.body;
     if (!title || !shortDescription || !fullDescription || !result) {
-      return res.json({ message: 'all fields are required' });
+      return res.status(400).json({ message: 'all fields are required' });
     }
     // Create new user
     else {

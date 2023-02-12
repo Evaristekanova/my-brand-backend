@@ -8,13 +8,13 @@ chai.use(chaiHttp);
 describe('POST a user', () => {
   beforeEach(async () => {
     try {
-      await signUp.deleteMany({ email: 'milokanova@example.com' });
+      await signUp.deleteMany({ email: 'milokanovaa@example.com' });
     } catch (error) {}
   });
   it('should create a new user', async () => {
     const res = await chai.request(app).post('/api/v1/users').send({
       name: 'Milo kanova',
-      email: 'milokanova@example.com',
+      email: 'milokanovaa@example.com',
       password: '1234567',
       isAdmin:true
     });
@@ -35,13 +35,13 @@ describe('POST a user', () => {
   it('should return an error if email is already taken', async () => {
     await chai.request(app).post('/api/v1/users').send({
       name: 'Milo kanova',
-      email: 'milokanova@example.com',
+      email: 'milokanovaa@example.com',
       password: '1234567',
     });
 
     const res = await chai.request(app).post('/api/v1/users').send({
       name: 'Jane Doe',
-      email: 'milokanova@example.com',
+      email: 'milokanovaa@example.com',
       password: '1234567',
     });
 
@@ -103,7 +103,7 @@ describe('Login', () => {
       .request(app)
       .post('/api/v1/login')
       .send({
-        email: 'milokanova@example.com',
+        email: 'milokanovaa@example.com',
         password: '',
       })
       .end((err, res) => {
@@ -132,7 +132,7 @@ describe('get single user', () => {
   let token;
   before(async () => {
     const response = await chai.request(app).post('/api/v1/login').send({
-      email: 'milokanova@example.com',
+      email: 'milokanovaa@example.com',
       password: '1234567',
     });
     token = response.body.data;

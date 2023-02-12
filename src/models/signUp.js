@@ -6,6 +6,7 @@ const schema = mongoose.Schema({
   password: { type: String },
   isAdmin: {
     type: Boolean,
+    required:false
   },
   refreshToken: {
     type: String,

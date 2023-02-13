@@ -88,7 +88,7 @@ describe('All Blogs API EndPoints', () => {
       .send({
         email: 'milokanova@example.com',
         password: '1234567',
-        isAdmin:true
+        isAdmin: true,
       })
       .end((err, res) => {
         assert.isNull(err, 'Error should be null');
@@ -198,62 +198,62 @@ describe('All Blogs API EndPoints', () => {
         done();
       });
   });
-    it('UPDATE existing Blog, require admin Authorization', (done) => {
-      chai
-        .request(app)
-        .put(`/api/v1/blogs/update/${blogId}`)
-        .attach(
-          'image',
-          fs.readFileSync(path.join(__dirname, 'scrnshot.PNG')),
-          'scrnshot.PNG'
-        )
-        .field('title', 'updated')
-        .end((err, res) => {
-          assert.isNull(err, 'Error should be null');
-          assert.equal(res.status, 403, 'Status code should be 200');
-          assert.isObject(res.body, 'Response body should be an Object');
-          res.body.should.have.property('message');
-          done();
-        });
-    });
-   it('UPDATE Blog which does not exist, require admin Authorization', (done) => {
-     chai
-       .request(app)
-       .put(`/api/v1/blogs/update/63d8d2485cabb22a2f2b6c30`)
-       .set('Authorization', `Bearer ${token}`)
-       .attach(
-         'image',
-         fs.readFileSync(path.join(__dirname, 'scrnshot.PNG')),
-         'scrnshot.PNG'
-       )
-       .field('title', 'updated')
-       .end((err, res) => {
-         assert.isNull(err, 'Error should be null');
-         assert.isObject(res.body, 'Response body should be an Object');
-         res.body.should.have.property('status');
-         res.body.should.have.property('message');
-         done();
-       });
-   });
-   it('UPDATE Blog with invalid id, require admin Authorization', (done) => {
-     chai
-       .request(app)
-       .put(`/api/v1/blogs/update/63d8d2485cabb22a2f2b6c`)
-       .set('Authorization', `Bearer ${token}`)
-       .attach(
-         'image',
-         fs.readFileSync(path.join(__dirname, 'scrnshot.PNG')),
-         'scrnshot.PNG'
-       )
-       .field('title', 'updated')
-       .end((err, res) => {
-         assert.isNull(err, 'Error should be null');
-         assert.equal(res.status, 400, 'Status code should be 400');
-         assert.isObject(res.body, 'Response body should be an Object');
-         res.body.should.have.property('message');
-         done();
-       });
-   });
+  it('UPDATE existing Blog, require admin Authorization', (done) => {
+    chai
+      .request(app)
+      .put(`/api/v1/blogs/update/${blogId}`)
+      .attach(
+        'image',
+        fs.readFileSync(path.join(__dirname, 'scrnshot.PNG')),
+        'scrnshot.PNG'
+      )
+      .field('title', 'updated')
+      .end((err, res) => {
+        assert.isNull(err, 'Error should be null');
+        assert.equal(res.status, 403, 'Status code should be 200');
+        assert.isObject(res.body, 'Response body should be an Object');
+        res.body.should.have.property('message');
+        done();
+      });
+  });
+  it('UPDATE Blog which does not exist, require admin Authorization', (done) => {
+    chai
+      .request(app)
+      .put(`/api/v1/blogs/update/63d8d2485cabb22a2f2b6c30`)
+      .set('Authorization', `Bearer ${token}`)
+      .attach(
+        'image',
+        fs.readFileSync(path.join(__dirname, 'scrnshot.PNG')),
+        'scrnshot.PNG'
+      )
+      .field('title', 'updated')
+      .end((err, res) => {
+        assert.isNull(err, 'Error should be null');
+        assert.isObject(res.body, 'Response body should be an Object');
+        res.body.should.have.property('status');
+        res.body.should.have.property('message');
+        done();
+      });
+  });
+  it('UPDATE Blog with invalid id, require admin Authorization', (done) => {
+    chai
+      .request(app)
+      .put(`/api/v1/blogs/update/63d8d2485cabb22a2f2b6c`)
+      .set('Authorization', `Bearer ${token}`)
+      .attach(
+        'image',
+        fs.readFileSync(path.join(__dirname, 'scrnshot.PNG')),
+        'scrnshot.PNG'
+      )
+      .field('title', 'updated')
+      .end((err, res) => {
+        assert.isNull(err, 'Error should be null');
+        assert.equal(res.status, 400, 'Status code should be 400');
+        assert.isObject(res.body, 'Response body should be an Object');
+        res.body.should.have.property('message');
+        done();
+      });
+  });
   it('User login', (done) => {
     chai
       .request(app)
@@ -307,35 +307,34 @@ describe('All Blogs API EndPoints', () => {
       .set('Authorization', `bearer ${token}`)
       .end((err, res) => {
         assert.isNull(err, 'Error should be null');
-        res.body.should.be.a('object')
+        res.body.should.be.a('object');
         done();
       });
   });
 
-   it('Should delete a blog which does not exist', (done) => {
-     chai
-       .request(app)
-       .delete(`/api/v1/blogs/63d8d2485cabb22a2f2b6c30`)
-       .set('Authorization', `bearer ${token}`)
-       .end((err, res) => {
-         assert.isNull(err, 'Error should be null');
-         res.should.have.status(404), res.body.should.have.property('message');
-         done();
-       });
-   });
-
-      it('Should delete a blog with invalid id', (done) => {
-        chai
-          .request(app)
-          .delete(`/api/v1/blogs/63d8d2485cabb22a2f2b6c`)
-          .set('Authorization', `bearer ${token}`)
-          .end((err, res) => {
-            assert.isNull(err, 'Error should be null');
-            res.should.have.status(400),
-              res.body.should.have.property('message');
-            done();
-          });
+  it('Should delete a blog which does not exist', (done) => {
+    chai
+      .request(app)
+      .delete(`/api/v1/blogs/63d8d2485cabb22a2f2b6c30`)
+      .set('Authorization', `bearer ${token}`)
+      .end((err, res) => {
+        assert.isNull(err, 'Error should be null');
+        res.should.have.status(404), res.body.should.have.property('message');
+        done();
       });
+  });
+
+  it('Should delete a blog with invalid id', (done) => {
+    chai
+      .request(app)
+      .delete(`/api/v1/blogs/63d8d2485cabb22a2f2b6c`)
+      .set('Authorization', `bearer ${token}`)
+      .end((err, res) => {
+        assert.isNull(err, 'Error should be null');
+        res.should.have.status(400), res.body.should.have.property('message');
+        done();
+      });
+  });
 
   it('display all comments', (done) => {
     chai

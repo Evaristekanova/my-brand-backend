@@ -1,4 +1,5 @@
-## Capstone-backend ![check-code-coverage](https://img.shields.io/badge/code--coverage-89.36%25-green) [![Maintainability](https://api.codeclimate.com/v1/badges/fa9862e8369234820897/maintainability)](https://codeclimate.com/github/Evaristekanova/my-brand-backend/maintainability) 
+## Capstone-backend 
+[![Node.js CI](https://github.com/Evaristekanova/my-brand-backend/actions/workflows/node.js.yml/badge.svg)](https://github.com/Evaristekanova/my-brand-backend/actions/workflows/node.js.yml) ![check-code-coverage](https://img.shields.io/badge/code--coverage-89.36%25-green) [![Maintainability](https://api.codeclimate.com/v1/badges/fa9862e8369234820897/maintainability)](https://codeclimate.com/github/Evaristekanova/my-brand-backend/maintainability) 
 # Description
 this is backend for my capstone project, this will allow visitors to reach me and it contain both APIs endpoint that will allow CRUD operations
 
